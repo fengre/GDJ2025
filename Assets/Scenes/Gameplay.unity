@@ -514,6 +514,7 @@ GameObject:
   - component: {fileID: 1807121162}
   - component: {fileID: 1807121161}
   - component: {fileID: 1807121160}
+  - component: {fileID: 1807121163}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -632,7 +633,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   music: {fileID: 1807121160}
   notePrefab: {fileID: 2747055920294205886, guid: 70c738e152926264f82a8256d7801238, type: 3}
-  noteTravelTime: 2
+  noteSpeed: 2
   notes:
   - timeToHit: 2
     lane: 0
@@ -651,6 +652,7 @@ MonoBehaviour:
   - {fileID: 505514090}
   - {fileID: 2141857614}
   - {fileID: 1226926081}
+  judgmentLine: {fileID: 1912740326}
 --- !u!4 &1807121162
 Transform:
   m_ObjectHideFlags: 0
@@ -666,6 +668,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1807121163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1807121159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d527b5901cf573445b124a293fee3558, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laneKeys: 64000000660000006a0000006b000000
+  judgmentLine: {fileID: 1912740326}
+  hitThreshold: 0.5
 --- !u!1 &1912740325
 GameObject:
   m_ObjectHideFlags: 0

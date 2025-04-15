@@ -3,24 +3,36 @@ using UnityEngine;
 
 public class JudgmentLine : MonoBehaviour
 {
-    // Called when a note enters the judgment line collider.
+    // Called when any collider enters the judgment zone.
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Note"))
         {
-            Debug.Log("Note reached the judgment line in lane!");
-            // Here you can mark the note as ready for a hit.
-            // You might optionally remove or disable movement to await input.
+            NoteMover note = other.GetComponent<NoteMover>();
+            if (note != null)
+            {
+                note.isHittable = true;
+                Debug.Log("Note entered judgment zone: Lane " + note.lane);
+            }
         }
     }
 
-    // Called when a note exits the judgment line without being hit.
+    // Called when a collider exits the judgment zone.
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Note"))
         {
-            Debug.Log("Missed note in lane!");
-            // Handle miss logic, such as reducing score, triggering an animation, etc.
+            NoteMover note = other.GetComponent<NoteMover>();
+            if (note != null)
+            {
+                // If the note exits without being hit, it’s a miss.
+                if (!note.isHit)
+                {
+                    Debug.Log("Missed note in lane " + note.lane);
+                    // Additional miss handling logic (such as reducing score) can go here.
+                }
+                note.isHittable = false;
+            }
         }
     }
 }

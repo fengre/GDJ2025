@@ -4,15 +4,19 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
-    public AudioSource music;                // Your audio source assigned via Inspector.
-    public GameObject notePrefab;            // Note prefab for instantiation.
-    public float noteTravelTime = 2f;          // Time (in seconds) for a note to travel from spawn to the judgment line.
+    [Header("Audio Settings")]
+    public AudioSource music; // Attach your AudioSource (with your music clip)
+
+    [Header("Note Settings")]
+    public GameObject notePrefab; // Your note prefab
+    public float noteSpeed = 300f; // Speed at which notes travel (units per second)
     
-    // List to hold note timing and lane data.
+    // List of note events – each note defines when it should be hit.
     public List<NoteData> notes = new List<NoteData>();
 
-    // Array of lane spawn points. Ensure you set exactly four in the Inspector.
-    public Transform[] laneSpawnPoints;
+    [Header("Lane Settings")]
+    public Transform[] laneSpawnPoints; // Set 4 lane spawn points via inspector.
+    public Transform judgmentLine;      // Reference to the Judgment Line GameObject
 
     private float startTime;
 
@@ -20,42 +24,70 @@ public class GameManager : MonoBehaviour
     {
         startTime = Time.time;
         music.Play();
+
+        // For demonstration, add a test note: lane 0 to be hit at 5 seconds.
+        // notes.Add(new NoteData { timeToHit = 5f, lane = 0, noteColor = Color.red });
+        // Add more notes as needed...
     }
 
     void Update()
     {
         float songTime = Time.time - startTime;
-        
-        // Spawn notes when the song time (plus the lead time) meets the note's hit time.
-        while (notes.Count > 0 && notes[0].timeToHit - noteTravelTime <= songTime)
-        {
-            SpawnNote(notes[0]);
-            notes.RemoveAt(0);
-        }
-    }
 
-    void SpawnNote(NoteData data)
-    {
-        // Ensure the lane index is valid.
-        if (data.lane >= 0 && data.lane < laneSpawnPoints.Length)
+        // Check if there are any notes left to spawn.
+        while (notes.Count > 0)
         {
-            // Instantiate the note at the designated lane spawn point.
-            GameObject note = Instantiate(notePrefab, laneSpawnPoints[data.lane].position, laneSpawnPoints[data.lane].rotation);
-            
-            // Get the SpriteRenderer component (or Image component if using UI)
-            SpriteRenderer sr = note.GetComponent<SpriteRenderer>();
-            if (sr != null)
+            // Get the next note (assuming they are sorted by timeToHit).
+            NoteData nextNote = notes[0];
+
+            // Compute the travel time based on distance from the selected lane spawn to the judgment line.
+            // First, get the appropriate spawn point for this note.
+            if (nextNote.lane < 0 || nextNote.lane >= laneSpawnPoints.Length)
             {
-                sr.color = data.noteColor; // Apply the custom color.
+                Debug.LogWarning("Invalid lane number in note data: " + nextNote.lane);
+                notes.RemoveAt(0);
+                continue;
+            }
+
+            Transform spawnPoint = laneSpawnPoints[nextNote.lane];
+            float distance = Vector3.Distance(spawnPoint.position, judgmentLine.position);
+            float travelTime = distance / noteSpeed;
+
+            // Determine when the note should be spawned.
+            float spawnTime = nextNote.timeToHit - travelTime;
+
+            if (songTime >= spawnTime)
+            {
+                SpawnNote(nextNote, spawnPoint);
+                notes.RemoveAt(0);
             }
             else
             {
-                Debug.LogWarning("No SpriteRenderer found on the note prefab to set color.");
+                // If it’s not yet time to spawn the next note, exit the loop.
+                break;
             }
         }
-        else
+    }
+
+    // Inside the SpawnNote method in GameManager.cs
+    void SpawnNote(NoteData data, Transform spawnPoint)
+    {
+        // Instantiate the note at the given spawn point.
+        GameObject note = Instantiate(notePrefab, spawnPoint.position, spawnPoint.rotation);
+        
+        // Set up the note's visual color if applicable.
+        SpriteRenderer sr = note.GetComponent<SpriteRenderer>();
+        if (sr != null)
         {
-            Debug.LogWarning("Invalid lane number: " + data.lane);
+            sr.color = data.noteColor;
+        }
+        
+        // Pass the note speed to the NoteMover.
+        NoteMover mover = note.GetComponent<NoteMover>();
+        if (mover != null)
+        {
+            mover.moveSpeed = noteSpeed;
+            mover.lane = data.lane;  // Assign the lane
         }
     }
 }

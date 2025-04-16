@@ -1,14 +1,16 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Buttons : MonoBehaviour
 {
-    public void PlayGame(){
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        
     }
 
-    public void QuitGame(){
-        Debug.Log("QUIT!");
-        Application.Quit();
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 }

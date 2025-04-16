@@ -11,6 +11,8 @@ public class InputHandler : MonoBehaviour
 
     // Define how close (in world units) a note must be to be considered a valid hit.
     public float hitThreshold = 0.5f;
+    public float greatThreshold = 0.25f;
+    public float perfectThreshold = 0.1f;
 
     void Update()
     {
@@ -26,19 +28,16 @@ public class InputHandler : MonoBehaviour
 
     void AttemptHit(int lane)
     {
-        // Find all active notes in the scene.
-        NoteMover[] notes = FindObjectsOfType<NoteMover>();
+        NoteMover[] notes = FindObjectsByType<NoteMover>(FindObjectsSortMode.None);
         NoteMover bestNote = null;
         float smallestDistance = Mathf.Infinity;
-        float judgementY = judgmentLine.position.y;
+        float judgmentY = judgmentLine.position.y;
         
         foreach (NoteMover note in notes)
         {
-            // Check if this note is in the correct lane and is within the judgment zone.
             if (note.lane == lane && note.isHittable && !note.isHit)
             {
-                // We compare the y-distance to the judgment line as a simple measure.
-                float distance = Mathf.Abs(note.transform.position.y - judgementY);
+                float distance = Mathf.Abs(note.transform.position.y - judgmentY);
                 if (distance < smallestDistance)
                 {
                     smallestDistance = distance;
@@ -49,16 +48,34 @@ public class InputHandler : MonoBehaviour
         
         if (bestNote != null && smallestDistance <= hitThreshold)
         {
-            // Register a successful hit.
             bestNote.isHit = true;
             Destroy(bestNote.gameObject);
-            Debug.Log("Hit note in lane " + lane + " with accuracy of " + smallestDistance);
-            // Additional scoring logic can be added here (e.g., awarding points for perfect/great/good).
+
+            // Determine hit rating.
+            float changeAmount = 0f;
+            if (smallestDistance <= perfectThreshold)
+            {
+                Debug.Log("Perfect hit on lane " + lane);
+                changeAmount = GroupManager.Instance.perfectHitIncrease;
+            }
+            else if (smallestDistance <= greatThreshold)
+            {
+                Debug.Log("Great hit on lane " + lane);
+                changeAmount = GroupManager.Instance.greatHitIncrease;
+            }
+            else // within good threshold.
+            {
+                Debug.Log("Good hit on lane " + lane);
+                changeAmount = GroupManager.Instance.goodHitIncrease;
+            }
+
+            // Increase the value of the group corresponding to this note's color.
+            GroupManager.Instance.ChangeGroupValue(bestNote.noteColor, changeAmount);
         }
         else
         {
             Debug.Log("Missed input in lane " + lane);
-            // You can also handle a miss here (e.g., reducing score or showing a visual cue).
         }
     }
+
 }

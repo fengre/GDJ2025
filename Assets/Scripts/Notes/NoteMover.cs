@@ -1,16 +1,27 @@
-// File: NoteMover.cs
 using UnityEngine;
 
 public class NoteMover : MonoBehaviour
 {
-    public float moveSpeed = 300f; // This is set from GameManager.
-    public int lane;             // Which lane (0–3) this note belongs to.
-    public bool isHittable = false; // Becomes true when the note is within the judgment zone.
-    public bool isHit = false;      // To prevent re-hitting the same note.
+    public float moveSpeed = 300f;
+    public int lane;
+    public Color noteColor;    // This determines the group.
+    public bool isHittable = false;
+    public bool isHit = false;
 
     void Update()
     {
-        // Move downward. Adjust if your coordinate system differs.
+        // Move note downward.
         transform.Translate(Vector3.down * moveSpeed * Time.deltaTime);
+    }
+
+    void OnBecameInvisible()
+    {
+        // If the note went off-screen without being hit, register a miss.
+        if (!isHit)
+        {
+            // Tell the GroupManager to decrease the group value.
+            // GroupManager.Instance.ChangeGroupValue(noteColor, -GroupManager.Instance.missDecrease);
+        }
+        Destroy(gameObject);
     }
 }

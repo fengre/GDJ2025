@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
         float songTime = Time.time - startTime;
 
         // Check if there are any notes left to spawn.
+        int index = 0;
         while (notes.Count > 0)
         {
             // Get the next note (assuming they are sorted by timeToHit).
@@ -50,8 +51,9 @@ public class GameManager : MonoBehaviour
             }
 
             Transform spawnPoint = laneSpawnPoints[nextNote.lane];
-            float distance = Vector3.Distance(spawnPoint.position, judgmentLine.position);
+            float distance = Mathf.Abs(spawnPoint.position.y - judgmentLine.position.y);
             float travelTime = distance / noteSpeed;
+            Debug.Log(index + ": " + distance + " " + travelTime);
 
             // Determine when the note should be spawned.
             float spawnTime = nextNote.timeToHit - travelTime;
@@ -60,6 +62,7 @@ public class GameManager : MonoBehaviour
             {
                 SpawnNote(nextNote, spawnPoint);
                 notes.RemoveAt(0);
+                index++;
             }
             else
             {

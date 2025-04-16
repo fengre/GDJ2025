@@ -635,16 +635,16 @@ MonoBehaviour:
   notePrefab: {fileID: 2747055920294205886, guid: 70c738e152926264f82a8256d7801238, type: 3}
   noteSpeed: 2
   notes:
-  - timeToHit: 2
+  - timeToHit: 6
     lane: 0
     noteColor: {r: 1, g: 0, b: 0, a: 1}
-  - timeToHit: 4
+  - timeToHit: 9
     lane: 1
     noteColor: {r: 0, g: 0.10606551, b: 1, a: 1}
-  - timeToHit: 4
+  - timeToHit: 9
     lane: 2
     noteColor: {r: 1, g: 0.8529359, b: 0, a: 1}
-  - timeToHit: 5
+  - timeToHit: 11
     lane: 3
     noteColor: {r: 0, g: 0.6679245, b: 0, a: 1}
   laneSpawnPoints:

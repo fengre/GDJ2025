@@ -14,9 +14,6 @@ public class GroupManager : MonoBehaviour
     public float goodHitIncrease    = 2f;
     public float missDecrease       = 5f;
 
-    // The target band. In this example, the goal is to keep the value between 45 and 55.
-    public Vector2 targetBand = new Vector2(45f, 55f);
-
     void Awake()
     {
         if (Instance == null)
@@ -67,7 +64,7 @@ public class GroupManager : MonoBehaviour
     /// <summary>
     /// Optionally, check if the group’s value is within the desired band.
     /// </summary>
-    public bool IsGroupWithinBand(Color targetColor)
+    public bool IsGroupWithinBand(Color targetColor, Vector2 targetBand)
     {
         NoteGroup group = groups.Find(g => ColorsEqual(g.color, targetColor));
         if (group != null)

@@ -819,7 +819,6 @@ GameObject:
   - component: {fileID: 807864508}
   - component: {fileID: 807864507}
   - component: {fileID: 807864506}
-  - component: {fileID: 807864510}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -913,20 +912,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &807864510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 807864505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2361c1945caa784f81106f66b52854a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  musicSlider: {fileID: 0}
-  sfxSlider: {fileID: 0}
 --- !u!1 &977412152
 GameObject:
   m_ObjectHideFlags: 0
@@ -957,8 +942,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: eeccb1d73824b754eb3c7cf3faa415aa, type: 2}
-  settingsPanelPrefab: {fileID: 398622172247054416, guid: e894e03d42e66b04ca027d880fa48101, type: 3}
-  settingsPanelInstance: {fileID: 0}
   musicVolume: 1
   sfxVolume: 1
 --- !u!4 &977412154

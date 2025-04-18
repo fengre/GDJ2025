@@ -6,6 +6,7 @@ public class PauseMenu : MonoBehaviour
     public static bool GameIsPaused = false;
 
     public GameObject pauseMenuUI;
+    public GameObject settingsPanel;
     public AudioSource musicSource;
 
     // Update is called once per frame
@@ -22,6 +23,13 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
+        // If trying to resume and settings panel is still open -> deny
+        if (settingsPanel != null && settingsPanel.activeSelf)
+        {
+            Debug.Log("Can't resume yet, settings panel is still open.");
+            return;
+        }
+
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         musicSource.UnPause();
@@ -34,12 +42,6 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0f;
         musicSource.Pause();
         GameIsPaused = true;
-    }
-
-    public void LoadSettings()
-    {
-        Debug.Log("loading settings");
-        //SceneManager.LoadScene("Menu");
     }
 
     public void QuitGame()

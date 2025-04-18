@@ -7,8 +7,8 @@ public class SettingsPanelManager : MonoBehaviour
 
     public AudioMixer audioMixer;
 
-    public float musicVolume = 80f;
-    public float sfxVolume = 80f;
+    [Range(0f, 1f)] public float musicVolume = 1f;
+    [Range(0f, 1f)] public float sfxVolume = 1f;
 
     private const string MUSIC_PARAM = "MusicVol";
     private const string SFX_PARAM = "SFXVol";
@@ -42,6 +42,9 @@ public class SettingsPanelManager : MonoBehaviour
 
     private void ApplyVolume(string parameter, float value)
     {
-        audioMixer.SetFloat(parameter, value);
+        //float dB = Mathf.Log10(Mathf.Clamp(Mathf.Pow(value, 0.5f), 0.0001f, 1f)) * 20f;
+        float dB = Mathf.Lerp(-80f, 0f, value);  
+        audioMixer.SetFloat(parameter, dB);
     }
+
 }

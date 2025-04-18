@@ -75,7 +75,7 @@ public class SpawnManager : MonoBehaviour
             string line = lines[i];
             string[] tokens = line.Split(',');
 
-            if (tokens.Length < 6)
+            if (tokens.Length < 3)
             {
                 Debug.LogWarning("Skipping invalid line " + i + " in CSV: " + line);
                 continue;
@@ -93,43 +93,36 @@ public class SpawnManager : MonoBehaviour
             else
                 Debug.LogWarning("Invalid lane on line " + i);
 
-            // Parse color components.
-            if (float.TryParse(tokens[2], NumberStyles.Float, CultureInfo.InvariantCulture, out float r) &&
-                float.TryParse(tokens[3], NumberStyles.Float, CultureInfo.InvariantCulture, out float g) &&
-                float.TryParse(tokens[4], NumberStyles.Float, CultureInfo.InvariantCulture, out float b) &&
-                float.TryParse(tokens[5], NumberStyles.Float, CultureInfo.InvariantCulture, out float a))
-            {
-                note.noteColor = new Color(r, g, b, a);
-            }
+            // After you split tokens:
+            if (int.TryParse(tokens[2], out int idx))
+                note.groupIndex = idx;
             else
-            {
-                Debug.LogWarning("Invalid color on line " + i);
-                note.noteColor = Color.white; // default
-            }
+                Debug.LogWarning($"Invalid groupIndex on line {i}: {tokens[2]}");
 
             notes.Add(note);
+
         }
     }
 
     void SpawnNote(NoteData data, Transform spawnPoint)
     {
+        // Get the NoteGroup by index
+        NoteGroup group = GroupManager.Instance.groups[data.groupIndex];
+
+        // Instantiate
         GameObject note = Instantiate(notePrefab, spawnPoint.position, spawnPoint.rotation);
 
-        // Example with SpriteRenderer.
-        SpriteRenderer sr = note.GetComponent<SpriteRenderer>();
-        if (sr != null)
-        {
-            sr.color = data.noteColor;
-        }
+        // Apply the group’s color:
+        var sr = note.GetComponent<SpriteRenderer>();
+        if (sr != null) sr.color = group.color;
 
-        // Get the NoteMover script and assign properties.
-        NoteMover mover = note.GetComponent<NoteMover>();
+        // Tell the mover which group it is:
+        var mover = note.GetComponent<NoteMover>();
         if (mover != null)
         {
             mover.moveSpeed = noteSpeed;
-            mover.lane = data.lane;
-            mover.noteColor = data.noteColor;
+            mover.lane      = data.lane;
+            mover.groupIndex = data.groupIndex;
         }
     }
-
 }

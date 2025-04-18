@@ -47,19 +47,11 @@ public class GroupManager : MonoBehaviour
     /// <summary>
     /// Adjusts the group value for the group with the specified color.
     /// </summary>
-    public void ChangeGroupValue(Color targetColor, float delta)
+    public void ChangeGroupValue(int groupIndex, float delta)
     {
-        NoteGroup group = groups.Find(g => ColorsEqual(g.color, targetColor));
-        if (group != null)
-        {
-            group.Adjust(delta);
-            Debug.Log("Group " + targetColor.ToString() + " new value: " + group.value);
-        }
-        else
-        {
-            Debug.LogWarning("No group found for color: " + targetColor);
-        }
+        groups[groupIndex].Adjust(delta);
     }
+
 
     /// <summary>
     /// Optionally, check if the group’s value is within the desired band.

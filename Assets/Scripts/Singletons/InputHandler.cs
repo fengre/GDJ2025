@@ -69,8 +69,8 @@ public class InputHandler : MonoBehaviour
                 changeAmount = GroupManager.Instance.goodHitIncrease;
             }
 
-            // Increase the value of the group corresponding to this note's color.
-            GroupManager.Instance.ChangeGroupValue(bestNote.noteColor, changeAmount);
+            // then:
+            GroupManager.Instance.ChangeGroupValue(bestNote.groupIndex, changeAmount);
         }
         else
         {

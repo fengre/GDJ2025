@@ -4,7 +4,7 @@ public class NoteMover : MonoBehaviour
 {
     public float moveSpeed = 300f;
     public int lane;
-    public Color noteColor;    // This determines the group.
+    public int groupIndex;    // This determines the group.
     public bool isHittable = false;
     public bool isHit = false;
 

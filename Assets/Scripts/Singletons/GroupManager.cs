@@ -19,20 +19,27 @@ public class GroupManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            // If no groups are assigned in the Inspector, create default groups.
-            if (groups.Count == 0)
-            {
-                groups.Add(new NoteGroup() { color = Color.red,    value = 50 });
-                groups.Add(new NoteGroup() { color = Color.green,  value = 50 });
-                groups.Add(new NoteGroup() { color = Color.blue,   value = 50 });
-                groups.Add(new NoteGroup() { color = new Color(1f, 1f, 0f, 1f), value = 50 });
-            }
         }
         else
         {
             Destroy(gameObject);
         }
     }
+
+    public void InitializeGroups(List<NoteGroupData> groupData)
+    {
+        groups.Clear();
+        foreach (var data in groupData)
+        {
+            NoteGroup group = new NoteGroup();
+            group.name = data.name;
+            group.color = data.color;
+            group.value = 50f;
+            group.decayRate = 1f; // default, or read from data if you include it
+            groups.Add(group);
+        }
+    }
+
 
     private void Update()
     {

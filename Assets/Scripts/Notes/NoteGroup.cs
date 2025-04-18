@@ -3,6 +3,7 @@ using UnityEngine;
 [System.Serializable]
 public class NoteGroup
 {
+    public string name;
     public Color color;
     public float value = 50f;
     public float decayRate = 1f; // How much this group's value drops per second

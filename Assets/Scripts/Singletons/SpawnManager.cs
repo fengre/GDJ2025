@@ -21,7 +21,7 @@ public class SpawnManager : MonoBehaviour
 
     void Start()
     {
-        LoadNotesFromCSV("NoteData"); // CSV file name without extension, in Resources folder.
+        LoadFromCSV("SongData"); // CSV file name without extension, in Resources folder.
 
         // Sort the list by timeToHit.
         notes.Sort((a, b) => a.timeToHit.CompareTo(b.timeToHit));
@@ -47,61 +47,61 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Loads note data from a CSV file located in the Resources folder.
-    /// </summary>
-    /// <param name="fileName">CSV file name without extension</param>
-    void LoadNotesFromCSV(string fileName)
+    void LoadFromCSV(string filepath)
     {
-        // Load the file.
-        TextAsset csvFile = Resources.Load<TextAsset>(fileName);
-        if (csvFile == null)
-        {
-            Debug.LogError("Could not find " + fileName + ".csv in Resources folder.");
-            return;
-        }
+        TextAsset file = Resources.Load<TextAsset>(filepath);
+        string[] lines = file.text.Split('\n');
 
-        // Split into lines.
-        string[] lines = csvFile.text.Split(new[] { '\n', '\r' }, System.StringSplitOptions.RemoveEmptyEntries);
-        if (lines.Length <= 1)
-        {
-            Debug.LogError("CSV file " + fileName + " is empty or missing data.");
-            return;
-        }
+        List<NoteGroupData> groupDataList = new List<NoteGroupData>();
+        List<NoteData> noteDataList = new List<NoteData>();
 
-        // Loop through lines (skip header line).
-        for (int i = 1; i < lines.Length; i++)
-        {
-            string line = lines[i];
-            string[] tokens = line.Split(',');
+        bool parsingGroups = false;
+        bool parsingNotes = false;
 
-            if (tokens.Length < 3)
+        foreach (string rawLine in lines)
+        {
+            string line = rawLine.Trim();
+            if (string.IsNullOrEmpty(line) || line.StartsWith("#"))
+                continue;
+
+            if (line.StartsWith("groupIndex"))
             {
-                Debug.LogWarning("Skipping invalid line " + i + " in CSV: " + line);
+                parsingGroups = true;
+                parsingNotes = false;
                 continue;
             }
 
-            NoteData note = new NoteData();
-            // Parse using invariant culture to avoid localization issues.
-            if (float.TryParse(tokens[0], NumberStyles.Float, CultureInfo.InvariantCulture, out float timeToHit))
-                note.timeToHit = timeToHit;
-            else
-                Debug.LogWarning("Invalid timeToHit on line " + i);
+            if (line.StartsWith("timeToHit"))
+            {
+                parsingNotes = true;
+                parsingGroups = false;
+                continue;
+            }
 
-            if (int.TryParse(tokens[1], NumberStyles.Integer, CultureInfo.InvariantCulture, out int lane))
-                note.lane = lane;
-            else
-                Debug.LogWarning("Invalid lane on line " + i);
+            string[] tokens = line.Split(',');
 
-            // After you split tokens:
-            if (int.TryParse(tokens[2], out int idx))
-                note.groupIndex = idx;
-            else
-                Debug.LogWarning($"Invalid groupIndex on line {i}: {tokens[2]}");
-
-            notes.Add(note);
-
+            if (parsingGroups && tokens.Length >= 6)
+            {
+                int groupIndex = int.Parse(tokens[0]);
+                string name = tokens[1];
+                float r = float.Parse(tokens[2]);
+                float g = float.Parse(tokens[3]);
+                float b = float.Parse(tokens[4]);
+                float a = float.Parse(tokens[5]);
+                groupDataList.Add(new NoteGroupData(groupIndex, name, r, g, b, a));
+            }
+            else if (parsingNotes && tokens.Length >= 3)
+            {
+                NoteData note = new NoteData();
+                note.timeToHit = float.Parse(tokens[0]);
+                note.lane = int.Parse(tokens[1]);
+                note.groupIndex = int.Parse(tokens[2]);
+                noteDataList.Add(note);
+            }
         }
+
+        GroupManager.Instance.InitializeGroups(groupDataList);
+        notes = noteDataList;
     }
 
     void SpawnNote(NoteData data, Transform spawnPoint)

@@ -31,22 +31,24 @@ public class GroupManager : MonoBehaviour
         groups.Clear();
         foreach (var data in groupData)
         {
-            NoteGroup group = new NoteGroup();
-            group.name = data.name;
-            group.color = data.color;
-            group.value = 50f;
-            group.decayRate = 1f; // default, or read from data if you include it
+            NoteGroup group = new NoteGroup
+            {
+                groupIndex = data.groupIndex,   // ✅ Set it here
+                groupName = data.groupName,
+                groupColor = data.groupColor,
+                groupValue = 50f,
+            };
             groups.Add(group);
         }
     }
-
 
     private void Update()
     {
         foreach (var group in groups)
         {
             float decay = group.decayRate * Time.deltaTime;
-            group.Adjust(-decay);
+            ChangeGroupValue(group.groupIndex, -decay);
+            GroupUIManager.Instance.UpdateGroupValue(group.groupIndex, GroupManager.Instance.GetGroupValue(group.groupIndex));
         }
     }
 
@@ -65,10 +67,10 @@ public class GroupManager : MonoBehaviour
     /// </summary>
     public bool IsGroupWithinBand(Color targetColor, Vector2 targetBand)
     {
-        NoteGroup group = groups.Find(g => ColorsEqual(g.color, targetColor));
+        NoteGroup group = groups.Find(g => ColorsEqual(g.groupColor, targetColor));
         if (group != null)
         {
-            return group.value >= targetBand.x && group.value <= targetBand.y;
+            return group.groupValue >= targetBand.x && group.groupValue <= targetBand.y;
         }
         return false;
     }
@@ -84,9 +86,9 @@ public class GroupManager : MonoBehaviour
                Mathf.Approximately(c1.a, c2.a);
     }
 
-    public float GetGroupValue(Color color)
+    public float GetGroupValue(int groupIndex)
     {
-        NoteGroup group = groups.Find(g => g.color == color);
-        return group != null ? group.value : 0f;
+        NoteGroup group = groups.Find(g => g.groupIndex == groupIndex);
+        return group != null ? group.groupValue : 0f;
     }
 }

@@ -38,11 +38,11 @@ public class ScoreManager : MonoBehaviour
 
         foreach (var group in groupManager.groups)
         {
-            if (group.value >= idealMin && group.value <= idealMax)
+            if (group.groupValue >= idealMin && group.groupValue <= idealMax)
             {
                 earned += perfectPointsPerSecond;
             }
-            else if (group.value >= okayMin && group.value <= okayMax)
+            else if (group.groupValue >= okayMin && group.groupValue <= okayMax)
             {
                 earned += okayPointsPerSecond;
             }

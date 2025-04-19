@@ -4,6 +4,7 @@ using System.Globalization; // For NumberStyles and InvariantCulture
 
 public class SpawnManager : MonoBehaviour
 {
+    public static SpawnManager Instance { get; private set; }
 
     [Header("Note Settings")]
     public GameObject notePrefab; // Your note prefab.
@@ -18,6 +19,12 @@ public class SpawnManager : MonoBehaviour
 
     private float startTime;
     private float standardTravelTime;
+
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
 
     void Start()
     {
@@ -100,8 +107,9 @@ public class SpawnManager : MonoBehaviour
             }
         }
 
-        GroupManager.Instance.InitializeGroups(groupDataList);
         notes = noteDataList;
+        GroupManager.Instance.InitializeGroups(groupDataList);
+        GroupUIManager.Instance.InitializeGroups(GroupManager.Instance.groups);
     }
 
     void SpawnNote(NoteData data, Transform spawnPoint)
@@ -114,7 +122,7 @@ public class SpawnManager : MonoBehaviour
 
         // Apply the group’s color:
         var sr = note.GetComponent<SpriteRenderer>();
-        if (sr != null) sr.color = group.color;
+        if (sr != null) sr.color = group.groupColor;
 
         // Tell the mover which group it is:
         var mover = note.GetComponent<NoteMover>();

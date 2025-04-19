@@ -3,13 +3,14 @@ using UnityEngine;
 [System.Serializable]
 public class NoteGroup
 {
-    public string name;
-    public Color color;
-    public float value = 50f;
+    public int groupIndex;
+    public string groupName;
+    public Color groupColor;
+    public float groupValue = 50f;
     public float decayRate = 1f; // How much this group's value drops per second
 
     public void Adjust(float delta)
     {
-        value = Mathf.Clamp(value + delta, 0f, 100f);
+        groupValue = Mathf.Clamp(groupValue + delta, 0f, 100f);
     }
 }

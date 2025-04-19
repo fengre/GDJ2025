@@ -4,14 +4,14 @@ using UnityEngine;
 public class NoteGroupData
 {
     public int groupIndex;
-    public string name;
-    public Color color;
+    public string groupName;
+    public Color groupColor;
 
     public NoteGroupData(int index, string name, float r, float g, float b, float a)
     {
         this.groupIndex = index;
-        this.name = name;
-        this.color = new Color(r, g, b, a);
+        this.groupName = name;
+        this.groupColor = new Color(r, g, b, a);
     }
 }
 

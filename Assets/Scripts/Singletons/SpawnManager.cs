@@ -100,8 +100,9 @@ public class SpawnManager : MonoBehaviour
             }
         }
 
-        GroupManager.Instance.InitializeGroups(groupDataList);
         notes = noteDataList;
+        GroupManager.Instance.InitializeGroups(groupDataList);
+        GroupUIManager.Instance.InitializeGroups(GroupManager.Instance.groups);
     }
 
     void SpawnNote(NoteData data, Transform spawnPoint)
@@ -114,7 +115,7 @@ public class SpawnManager : MonoBehaviour
 
         // Apply the group’s color:
         var sr = note.GetComponent<SpriteRenderer>();
-        if (sr != null) sr.color = group.color;
+        if (sr != null) sr.color = group.groupColor;
 
         // Tell the mover which group it is:
         var mover = note.GetComponent<NoteMover>();

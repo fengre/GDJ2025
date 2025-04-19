@@ -10,8 +10,8 @@ public class InputHandler : MonoBehaviour
     public Transform judgmentLine;
 
     // Define how close (in world units) a note must be to be considered a valid hit.
-    public float hitThreshold = 0.5f;
-    public float greatThreshold = 0.25f;
+    public float hitThreshold = 1f;
+    public float greatThreshold = 0.5f;
     public float perfectThreshold = 0.1f;
 
     void Update()
@@ -71,6 +71,7 @@ public class InputHandler : MonoBehaviour
 
             // then:
             GroupManager.Instance.ChangeGroupValue(bestNote.groupIndex, changeAmount);
+            GroupUIManager.Instance.UpdateGroupValue(bestNote.groupIndex, GroupManager.Instance.GetGroupValue(bestNote.groupIndex));
         }
         else
         {

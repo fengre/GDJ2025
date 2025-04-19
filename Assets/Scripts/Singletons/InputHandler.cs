@@ -46,6 +46,7 @@ public class InputHandler : MonoBehaviour
             }
         }
         
+        HitRating rating;
         if (bestNote != null && smallestDistance <= hitThreshold)
         {
             bestNote.isHit = true;
@@ -55,19 +56,29 @@ public class InputHandler : MonoBehaviour
             float changeAmount = 0f;
             if (smallestDistance <= perfectThreshold)
             {
-                Debug.Log("Perfect hit on lane " + lane);
+                Debug.Log("perfect hit");
+                rating = HitRating.Perfect;
                 changeAmount = GroupManager.Instance.perfectHitIncrease;
             }
             else if (smallestDistance <= greatThreshold)
             {
-                Debug.Log("Great hit on lane " + lane);
+                Debug.Log("great hit");
+                rating = HitRating.Great;
                 changeAmount = GroupManager.Instance.greatHitIncrease;
             }
             else // within good threshold.
             {
-                Debug.Log("Good hit on lane " + lane);
+                Debug.Log("good hit");
+                rating = HitRating.Good;
                 changeAmount = GroupManager.Instance.goodHitIncrease;
             }
+
+            Debug.Log("x:" + SpawnManager.Instance.laneSpawnPoints[lane].position.x + ", y:" + judgmentLine.position.y);
+            Vector3 hitPos = new Vector3(
+                SpawnManager.Instance.laneSpawnPoints[lane].position.x,
+                judgmentLine.position.y,
+                0f);
+            FeedbackManager.Instance.ShowFeedback(rating, hitPos);
 
             // then:
             GroupManager.Instance.ChangeGroupValue(bestNote.groupIndex, changeAmount);
@@ -75,7 +86,12 @@ public class InputHandler : MonoBehaviour
         }
         else
         {
-            Debug.Log("Missed input in lane " + lane);
+            Debug.Log("miss hit");
+            // Vector3 missPos = new Vector3(
+            //     0f,
+            //     0f,
+            //     0f);
+            // FeedbackManager.Instance.ShowFeedback(HitRating.Miss, missPos);
         }
     }
 

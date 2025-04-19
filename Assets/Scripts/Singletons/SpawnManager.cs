@@ -4,6 +4,7 @@ using System.Globalization; // For NumberStyles and InvariantCulture
 
 public class SpawnManager : MonoBehaviour
 {
+    public static SpawnManager Instance { get; private set; }
 
     [Header("Note Settings")]
     public GameObject notePrefab; // Your note prefab.
@@ -18,6 +19,12 @@ public class SpawnManager : MonoBehaviour
 
     private float startTime;
     private float standardTravelTime;
+
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
 
     void Start()
     {

@@ -5,17 +5,22 @@ public class GameManager : MonoBehaviour
 {
     [Header("Audio Settings")]
     public AudioSource musicSource;
+    private double songStartDspTime;
+    private double songLength;
 
     private bool hasEnded = false;
 
     void Start()
     {
         musicSource.Play();
+        ScoreManager.Instance.ResetValues();
+        songStartDspTime = AudioSettings.dspTime;
+        songLength = musicSource.clip.length;
     }
 
     void Update()
     {
-        if (!hasEnded && (!musicSource.isPlaying || musicSource.time > 25f) && musicSource.time > 0f)
+        if (!hasEnded && (AudioSettings.dspTime - songStartDspTime >= songLength || musicSource.time > 25f) && musicSource.time > 0f)
         {
             hasEnded = true;
             EndGame();

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class ScoreManager : MonoBehaviour
 {
+    public static ScoreManager Instance { get; private set; }
+
     [Header("Group Reference")]
     public GroupManager groupManager;
 
@@ -18,6 +20,61 @@ public class ScoreManager : MonoBehaviour
 
     private float scoreTimer = 0f;
     private int totalScore = 0;
+
+    [SerializeField] private int totalNotesHit;
+    [SerializeField] private int perfectHits;
+    [SerializeField] private int greatHits;
+    [SerializeField] private int goodHits;
+    [SerializeField] private int totalNotes;
+
+    public int TotalNotesHit => totalNotesHit;
+    public int PerfectHits => perfectHits;
+    public int GreatHits => greatHits;
+    public int GoodHits => goodHits;
+    public int TotalNotes => totalNotes;
+
+    public void RegisterNote() => totalNotes++;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject); // Prevent duplicates
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject); // Persist across scenes
+    }
+
+    public void ResetValues()
+    {
+        scoreTimer = 0f;
+        totalScore = 0;
+        totalNotesHit = 0;
+        perfectHits = 0;
+        greatHits = 0;
+        goodHits = 0;
+        totalNotes = 0;
+    }
+
+    public void RegisterHit(HitRating rating)
+    {
+        totalNotesHit++;
+
+        switch (rating)
+        {
+            case HitRating.Perfect:
+                perfectHits++;
+                break;
+            case HitRating.Great:
+                greatHits++;
+                break;
+            case HitRating.Good:
+                goodHits++;
+                break;
+        }
+    }
 
     private void Update()
     {

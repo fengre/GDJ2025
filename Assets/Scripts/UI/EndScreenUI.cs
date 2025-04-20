@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 
 public class EndScreen : MonoBehaviour
@@ -9,15 +10,22 @@ public class EndScreen : MonoBehaviour
     public TextMeshProUGUI ratingText;
     public TextMeshProUGUI leaderboardText;
 
+    [Header("Hit Stats Pie Chart")]
+    public Image perfectSlice;
+    public Image greatSlice;
+    public Image goodSlice;
+
+
     void Start()
     {
         int finalScore = PlayerPrefs.GetInt("FinalScore", 0);
         scoreText.text = $"Final Score: {finalScore}";
         ratingText.text = $"Rating: {GetRating(finalScore)}";
         ShowLeaderboard();
+        DisplayStats();
     }
 
-    string GetRating(int score)
+    private string GetRating(int score)
     {
         if (score >= 1000) return "S";
         if (score >= 800) return "A";
@@ -26,7 +34,7 @@ public class EndScreen : MonoBehaviour
         return "D";
     }
 
-    void ShowLeaderboard()
+    private void ShowLeaderboard()
     {
         List<int> topScores = LeaderboardManager.GetScores();
         leaderboardText.text = "Top Scores:\n";
@@ -36,5 +44,28 @@ public class EndScreen : MonoBehaviour
             leaderboardText.text += $"{i + 1}. {topScores[i]}\n";
         }
     }
+
+
+
+
+    public void DisplayStats()
+    {
+        int total = ScoreManager.Instance.TotalNotes;
+        float perfectRatio = ScoreManager.Instance.PerfectHits / (float)total;
+        float greatRatio = ScoreManager.Instance.GreatHits / (float)total;
+        float goodRatio = ScoreManager.Instance.GoodHits / (float)total;
+
+        perfectSlice.fillAmount = perfectRatio;
+        greatSlice.fillAmount = perfectRatio + greatRatio;
+        goodSlice.fillAmount = perfectRatio + greatRatio + goodRatio;
+
+        Debug.Log(perfectRatio + "" + greatRatio + "" + goodRatio);
+
+        perfectSlice.color = new Color32(0x4C, 0xAF, 0x50, 255);
+        greatSlice.color = new Color32(0xFF, 0xC1, 0x07, 255);
+        goodSlice.color = new Color32(0xFF, 0x98, 0x00, 255);
+    }
+
+
 
 }

@@ -120,6 +120,7 @@ public class SpawnManager : MonoBehaviour
 
         // Instantiate
         GameObject note = Instantiate(notePrefab, spawnPoint.position, spawnPoint.rotation);
+        ScoreManager.Instance.RegisterNote();
 
         // Apply the group’s color:
         var sr = note.GetComponent<SpriteRenderer>();

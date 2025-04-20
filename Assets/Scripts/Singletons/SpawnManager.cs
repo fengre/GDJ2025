@@ -88,15 +88,27 @@ public class SpawnManager : MonoBehaviour
 
             string[] tokens = line.Split(',');
 
-            if (parsingGroups && tokens.Length >= 6)
+            if (parsingGroups && tokens.Length >= 3)
             {
                 int groupIndex = int.Parse(tokens[0]);
                 string name = tokens[1];
-                float r = float.Parse(tokens[2]);
-                float g = float.Parse(tokens[3]);
-                float b = float.Parse(tokens[4]);
-                float a = float.Parse(tokens[5]);
-                groupDataList.Add(new NoteGroupData(groupIndex, name, r, g, b, a));
+                string hex = tokens[2];
+                if (!hex.StartsWith("#")) hex = "#" + hex;
+
+                if (ColorUtility.TryParseHtmlString(hex, out Color parsedColor))
+                {
+                    // use parsedColor
+                }
+                else
+                {
+                    Debug.LogWarning($"Invalid hex color on line: {tokens[2]}");
+                    parsedColor = Color.white; 
+                }
+
+                groupDataList.Add(new NoteGroupData(
+                    groupIndex, name,
+                    parsedColor.r, parsedColor.g, parsedColor.b, parsedColor.a
+                ));
             }
             else if (parsingNotes && tokens.Length >= 3)
             {

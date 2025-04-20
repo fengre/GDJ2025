@@ -1,11 +1,3 @@
-# Groups
-groupIndex,name,hex
-0,Woodwind,B77154
-1,Piano,8C6FA9
-2,String,A2834D
-3,Bass,6696C6
-4,Drum,88BD79
-
 # Notes
 timeToHit,lane,groupIndex
 2.6,0,0

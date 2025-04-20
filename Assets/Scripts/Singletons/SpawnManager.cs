@@ -29,7 +29,7 @@ public class SpawnManager : MonoBehaviour
 
     void Start()
     {
-        LoadFromCSV("SongData"); // CSV file name without extension, in Resources folder.
+        notes = LoadNoteDataFromCSV("1_Notes"); // CSV file name without extension, in Resources folder.
 
         // Sort the list by timeToHit.
         notes.Sort((a, b) => a.timeToHit.CompareTo(b.timeToHit));
@@ -55,74 +55,33 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    void LoadFromCSV(string filepath)
+    List<NoteData> LoadNoteDataFromCSV(string filepath)
     {
         TextAsset file = Resources.Load<TextAsset>(filepath);
         string[] lines = file.text.Split('\n');
 
-        List<NoteGroupData> groupDataList = new List<NoteGroupData>();
         List<NoteData> noteDataList = new List<NoteData>();
-
-        bool parsingGroups = false;
-        bool parsingNotes = false;
 
         foreach (string rawLine in lines)
         {
             string line = rawLine.Trim();
-            if (string.IsNullOrEmpty(line) || line.StartsWith("#"))
+            if (string.IsNullOrEmpty(line) || line.StartsWith("#") || line.StartsWith("timeToHit"))
                 continue;
-
-            if (line.StartsWith("groupIndex"))
-            {
-                parsingGroups = true;
-                parsingNotes = false;
-                continue;
-            }
-
-            if (line.StartsWith("timeToHit"))
-            {
-                parsingNotes = true;
-                parsingGroups = false;
-                continue;
-            }
 
             string[] tokens = line.Split(',');
+            if (tokens.Length < 3) continue;
 
-            if (parsingGroups && tokens.Length >= 3)
+            NoteData note = new NoteData
             {
-                int groupIndex = int.Parse(tokens[0]);
-                string name = tokens[1];
-                string hex = tokens[2];
-                if (!hex.StartsWith("#")) hex = "#" + hex;
+                timeToHit = float.Parse(tokens[0]),
+                lane = int.Parse(tokens[1]),
+                groupIndex = int.Parse(tokens[2])
+            };
 
-                if (ColorUtility.TryParseHtmlString(hex, out Color parsedColor))
-                {
-                    // use parsedColor
-                }
-                else
-                {
-                    Debug.LogWarning($"Invalid hex color on line: {tokens[2]}");
-                    parsedColor = Color.white; 
-                }
-
-                groupDataList.Add(new NoteGroupData(
-                    groupIndex, name,
-                    parsedColor.r, parsedColor.g, parsedColor.b, parsedColor.a
-                ));
-            }
-            else if (parsingNotes && tokens.Length >= 3)
-            {
-                NoteData note = new NoteData();
-                note.timeToHit = float.Parse(tokens[0]);
-                note.lane = int.Parse(tokens[1]);
-                note.groupIndex = int.Parse(tokens[2]);
-                noteDataList.Add(note);
-            }
+            noteDataList.Add(note);
         }
 
-        notes = noteDataList;
-        GroupManager.Instance.InitializeGroups(groupDataList);
-        GroupUIManager.Instance.InitializeGroups(GroupManager.Instance.groups);
+        return noteDataList;
     }
 
     void SpawnNote(NoteData data, Transform spawnPoint)

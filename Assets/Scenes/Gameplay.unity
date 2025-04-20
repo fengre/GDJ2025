@@ -3014,7 +3014,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7af26285548af3d40a946a17c6bea8f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groupManager: {fileID: 1807121164}
   idealMin: 45
   idealMax: 55
   okayMin: 25
@@ -3349,11 +3348,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3436ea07ee0f29c49bfcdbd756648bb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMixer: {fileID: 24100000, guid: eeccb1d73824b754eb3c7cf3faa415aa, type: 2}
+  musicGroupName: Music
   groups: []
   perfectHitIncrease: 5
   greatHitIncrease: 3
   goodHitIncrease: 2
   missDecrease: 5
+  maxAllowedShutdowns: 5
 --- !u!114 &1807121166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3366,7 +3368,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 066aa69404fa9a74cbf15050d9361b66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicSource: {fileID: 1807121160}
 --- !u!114 &1807121167
 MonoBehaviour:
   m_ObjectHideFlags: 0

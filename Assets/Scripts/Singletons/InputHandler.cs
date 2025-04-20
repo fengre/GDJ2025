@@ -22,6 +22,9 @@ public class InputHandler : MonoBehaviour
             if (Input.GetKeyDown(laneKeys[lane]))
             {
                 AttemptHit(lane);
+
+                var line = SpawnManager.Instance.laneJudgementLines[lane];
+                line.GetComponent<JudgmentLineGlow>().TriggerGlow();
             }
         }
     }
@@ -56,29 +59,24 @@ public class InputHandler : MonoBehaviour
             float changeAmount = 0f;
             if (smallestDistance <= perfectThreshold)
             {
-                Debug.Log("perfect hit");
+                // Debug.Log("perfect hit");
                 rating = HitRating.Perfect;
                 changeAmount = GroupManager.Instance.perfectHitIncrease;
             }
             else if (smallestDistance <= greatThreshold)
             {
-                Debug.Log("great hit");
+                // Debug.Log("great hit");
                 rating = HitRating.Great;
                 changeAmount = GroupManager.Instance.greatHitIncrease;
             }
             else // within good threshold.
             {
-                Debug.Log("good hit");
+                // Debug.Log("good hit");
                 rating = HitRating.Good;
                 changeAmount = GroupManager.Instance.goodHitIncrease;
             }
 
-            Debug.Log("x:" + SpawnManager.Instance.laneSpawnPoints[lane].position.x + ", y:" + judgmentLine.position.y);
-            Vector3 hitPos = new Vector3(
-                SpawnManager.Instance.laneSpawnPoints[lane].position.x,
-                judgmentLine.position.y,
-                0f);
-            FeedbackManager.Instance.ShowFeedback(rating, hitPos);
+            FeedbackManager.Instance.ShowFeedback(rating);
 
             // then:
             GroupManager.Instance.ChangeGroupValue(bestNote.groupIndex, changeAmount);

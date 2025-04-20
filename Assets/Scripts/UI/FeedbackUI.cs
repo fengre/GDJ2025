@@ -44,6 +44,5 @@ public class FeedbackUI : MonoBehaviour
             yield return null;
         }
         canvasGroup.alpha = 0f;
-        Destroy(gameObject);
     }
 }

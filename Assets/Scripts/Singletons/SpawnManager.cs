@@ -15,6 +15,7 @@ public class SpawnManager : MonoBehaviour
 
     [Header("Lane Settings")]
     public Transform[] laneSpawnPoints; // Set these in the Inspector (four lanes).
+    public GameObject[] laneJudgementLines; // Set these in the Inspector (four lanes).
     public Transform judgmentLine;      // Reference to your judgment line.
 
     private float startTime;

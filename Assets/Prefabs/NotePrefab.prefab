@@ -103,6 +103,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  lane: 0
+  groupIndex: 0
+  isHittable: 0
+  isHit: 0
 --- !u!50 &8746634652774554284
 Rigidbody2D:
   serializedVersion: 5

@@ -7,7 +7,7 @@ public class NoteGroup
     public string groupName;
     public Color groupColor;
     public float groupValue = 50f;
-    public float decayRate = 1f; // How much this group's value drops per second
+    public float decayRate = 4f; // How much this group's value drops per second
 
     public void Adjust(float delta)
     {

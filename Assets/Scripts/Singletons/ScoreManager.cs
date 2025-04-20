@@ -1,13 +1,11 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance { get; private set; }
-
-    [Header("Group Reference")]
-    public GroupManager groupManager;
 
     [Header("Score Settings")]
     public float idealMin = 45f;
@@ -78,14 +76,17 @@ public class ScoreManager : MonoBehaviour
 
     private void Update()
     {
-        scoreTimer += Time.deltaTime;
-
-        if (scoreTimer >= 1f)
+        if (SceneManager.GetActiveScene().name == "Gameplay")  // Replace with your actual scene name
         {
-            scoreTimer -= 1f;
+            scoreTimer += Time.deltaTime;
 
-            int earned = CalculateScoreFromGroups();
-            totalScore += earned;
+            if (scoreTimer >= 1f)
+            {
+                scoreTimer -= 1f;
+
+                int earned = CalculateScoreFromGroups();
+                totalScore += earned;
+            }
         }
     }
 
@@ -93,7 +94,7 @@ public class ScoreManager : MonoBehaviour
     {
         int earned = 0;
 
-        foreach (var group in groupManager.groups)
+        foreach (var group in GroupManager.Instance.groups)
         {
             if (group.groupValue >= idealMin && group.groupValue <= idealMax)
             {

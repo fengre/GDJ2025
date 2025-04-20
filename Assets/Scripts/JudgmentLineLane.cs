@@ -18,7 +18,7 @@ public class JudgmentLineLane : MonoBehaviour
         {
             note.isHittable = true;
             // trigger the glow
-            _glow?.TriggerGlow();
+            // _glow?.TriggerGlow();
         }
     }
 

@@ -85,7 +85,7 @@ public class InputHandler : MonoBehaviour
         }
         else
         {
-            Debug.Log("miss hit");
+            // Debug.Log("miss hit");
             // Vector3 missPos = new Vector3(
             //     0f,
             //     0f,

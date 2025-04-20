@@ -599,7 +599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 427851510}
-  scoreManager: {fileID: 1807121165}
+  scoreManager: {fileID: 1671180583}
 --- !u!1 &505514089
 GameObject:
   m_ObjectHideFlags: 0
@@ -2280,6 +2280,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1527556854}
   m_CullTransparentMesh: 1
+--- !u!1 &1671180582
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1671180584}
+  - component: {fileID: 1671180583}
+  m_Layer: 0
+  m_Name: ScoreManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1671180583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671180582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7af26285548af3d40a946a17c6bea8f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groupManager: {fileID: 1807121164}
+  idealMin: 45
+  idealMax: 55
+  okayMin: 25
+  okayMax: 75
+  perfectPointsPerSecond: 10
+  okayPointsPerSecond: 5
+  totalNotesHit: 0
+  perfectHits: 0
+  greatHits: 0
+  goodHits: 0
+  totalNotes: 0
+--- !u!4 &1671180584
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671180582}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.7019145, y: 0.92198247, z: -0.06455822}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1673922648
 GameObject:
   m_ObjectHideFlags: 0
@@ -2425,10 +2481,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1807121162}
-  - component: {fileID: 1807121161}
   - component: {fileID: 1807121160}
+  - component: {fileID: 1807121161}
   - component: {fileID: 1807121164}
-  - component: {fileID: 1807121165}
   - component: {fileID: 1807121166}
   - component: {fileID: 1807121167}
   - component: {fileID: 1807121168}
@@ -2594,25 +2649,6 @@ MonoBehaviour:
   greatHitIncrease: 3
   goodHitIncrease: 2
   missDecrease: 5
---- !u!114 &1807121165
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1807121159}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7af26285548af3d40a946a17c6bea8f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groupManager: {fileID: 1807121164}
-  idealMin: 45
-  idealMax: 55
-  okayMin: 25
-  okayMax: 75
-  perfectPointsPerSecond: 10
-  okayPointsPerSecond: 5
 --- !u!114 &1807121166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3246,3 +3282,4 @@ SceneRoots:
   - {fileID: 1160349194}
   - {fileID: 1462136617}
   - {fileID: 1807121162}
+  - {fileID: 1671180584}

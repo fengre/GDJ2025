@@ -81,6 +81,7 @@ public class InputHandler : MonoBehaviour
             // then:
             GroupManager.Instance.ChangeGroupValue(bestNote.groupIndex, changeAmount);
             GroupUIManager.Instance.UpdateGroupValue(bestNote.groupIndex, GroupManager.Instance.GetGroupValue(bestNote.groupIndex));
+            ScoreManager.Instance.RegisterHit(rating);
         }
         else
         {

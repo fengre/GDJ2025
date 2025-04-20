@@ -1,0 +1,7 @@
+# Groups
+groupIndex,name,hex,decayRate,audioClipPath
+0,Woodwind,B77154,4,1_wood
+1,Piano,8C6FA9,3,1_piano
+2,String,A2834D,2,1_string
+3,Bass,6696C6,1,1_bass
+4,Drum,88BD79,0.5,1_drum

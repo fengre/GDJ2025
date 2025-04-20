@@ -3,32 +3,38 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
+
     [Header("Audio Settings")]
-    public AudioSource musicSource;
+    // public AudioSource musicSource;
     private double songStartDspTime;
     private double songLength;
 
     private bool hasEnded = false;
 
-    void Start()
+    private void Start()
     {
-        musicSource.Play();
+        // musicSource.Play();
         ScoreManager.Instance.ResetValues();
+        GroupManager.Instance.InitializeGroups();
+        songLength = GroupManager.Instance.PlayAllGroupAudio();
+        GroupUIManager.Instance.InitializeGroups(GroupManager.Instance.groups);
+
         songStartDspTime = AudioSettings.dspTime;
-        songLength = musicSource.clip.length;
     }
 
-    void Update()
+    private void Update()
     {
-        if (!hasEnded && (AudioSettings.dspTime - songStartDspTime >= songLength || musicSource.time > 25f) && musicSource.time > 0f)
+        if (!hasEnded && AudioSettings.dspTime - songStartDspTime >= 25f)
         {
             hasEnded = true;
-            EndGame();
+            EndGame("Song finished");
         }
     }
 
-    void EndGame()
+    public void EndGame(string reason)
     {
+        Debug.Log("Game Over: " + reason);
         int finalScore = FindFirstObjectByType<ScoreManager>().GetTotalScore();
         PlayerPrefs.SetInt("FinalScore", finalScore);
         LeaderboardManager.SaveScore(finalScore);

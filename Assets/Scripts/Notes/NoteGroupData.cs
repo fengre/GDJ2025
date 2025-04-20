@@ -6,12 +6,15 @@ public class NoteGroupData
     public int groupIndex;
     public string groupName;
     public Color groupColor;
+    public float groupDecayRate;
+    public AudioSource audioSource;
 
-    public NoteGroupData(int index, string name, float r, float g, float b, float a)
+    public NoteGroupData(int index, string name, Color color, float decayRate)
     {
         this.groupIndex = index;
         this.groupName = name;
-        this.groupColor = new Color(r, g, b, a);
+        this.groupColor = color;
+        this.groupDecayRate = decayRate;
     }
 }
 

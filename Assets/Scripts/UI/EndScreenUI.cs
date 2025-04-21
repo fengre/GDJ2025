@@ -19,8 +19,8 @@ public class EndScreen : MonoBehaviour
     void Start()
     {
         int finalScore = PlayerPrefs.GetInt("FinalScore", 0);
-        scoreText.text = $"Final Score: {finalScore}";
-        ratingText.text = $"Rating: {GetRating(finalScore)}";
+        scoreText.text = $"{finalScore}";
+        ratingText.text = $"{GetRating(finalScore)}";
         ShowLeaderboard();
         DisplayStats();
     }
@@ -37,7 +37,7 @@ public class EndScreen : MonoBehaviour
     private void ShowLeaderboard()
     {
         List<int> topScores = LeaderboardManager.GetScores();
-        leaderboardText.text = "Top Scores:\n";
+        leaderboardText.text = "";
 
         for (int i = 0; i < topScores.Count; i++)
         {

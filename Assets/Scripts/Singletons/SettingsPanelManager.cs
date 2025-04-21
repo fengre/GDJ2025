@@ -42,8 +42,8 @@ public class SettingsPanelManager : MonoBehaviour
 
     private void ApplyVolume(string parameter, float value)
     {
-        //float dB = Mathf.Log10(Mathf.Clamp(Mathf.Pow(value, 0.5f), 0.0001f, 1f)) * 20f;
-        float dB = Mathf.Lerp(-80f, 0f, value);  
+        float dB = Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f;
+        //float dB = Mathf.Lerp(-80f, 0f, value);  
         audioMixer.SetFloat(parameter, dB);
     }
 

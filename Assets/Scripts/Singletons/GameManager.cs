@@ -14,7 +14,17 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        GroupManager.Instance.InitializeGroups("1_Groups");
+        //GroupManager.Instance.InitializeGroups("1_Groups");
+
+        var song = LevelManager.Instance.currentSong;
+        if (song == null)
+        {
+            Debug.LogError("No song selected!");
+            return;
+        }
+
+        // ✅ Initialize group data using the song's groupCSVName
+        GroupManager.Instance.InitializeGroups(song.groupCSVName);
     }
 
     private void Start()

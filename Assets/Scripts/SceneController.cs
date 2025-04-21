@@ -9,4 +9,14 @@ public class SceneController : MonoBehaviour
     }
 
     //return to levels menu method
+
+    public void GoToLevelsMenu()
+    {
+        SceneManager.LoadScene("Levels"); // loads the first scene in Build Settings
+    }
+
+    public void GoToGame()
+    {
+        SceneManager.LoadScene("Gameplay"); // loads the first scene in Build Settings
+    }
 }

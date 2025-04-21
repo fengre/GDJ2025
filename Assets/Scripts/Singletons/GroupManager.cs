@@ -130,6 +130,29 @@ public class GroupManager : MonoBehaviour
         return songLength;
     }
 
+    public void PauseAllGroupAudio()
+    {
+        foreach (var group in groups)
+        {
+            if (group.audioSource.isPlaying)
+            {
+                group.audioSource.Pause();
+            }
+        }
+    }
+
+    public void ResumeAllGroupAudio()
+    {
+        foreach (var group in groups)
+        {
+            if (!group.audioSource.isPlaying && group.audioSource.time > 0f)
+            {
+                group.audioSource.UnPause();
+            }
+        }
+    }
+
+
 
     private void Update()
     {

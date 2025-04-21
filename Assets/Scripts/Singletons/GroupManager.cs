@@ -25,6 +25,9 @@ public class GroupManager : MonoBehaviour
     public int maxAllowedShutdowns = 5;
     private int currentShutdowns = 0;
 
+    public double earliestGroupTime = double.MaxValue;
+    public int earliestGroup;
+
     void Awake()
     {
         if (Instance == null)
@@ -152,7 +155,13 @@ public class GroupManager : MonoBehaviour
         }
     }
 
-
+    public void UpdateEarliestGroup(double timeToHit, int group)
+    {
+        if (timeToHit < earliestGroupTime) {
+            earliestGroup = group;
+            earliestGroupTime = timeToHit;
+        }
+    }
 
     private void Update()
     {

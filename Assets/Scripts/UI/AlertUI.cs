@@ -20,6 +20,7 @@ public class AlertUI : MonoBehaviour
 
     public void Show(string message, Color color)
     {
+        if (this == null || gameObject == null) return; // extra-safe
         if (currentRoutine != null) StopCoroutine(currentRoutine);
         label.text = message;
         label.color = color;

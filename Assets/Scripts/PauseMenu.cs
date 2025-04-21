@@ -32,6 +32,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GroupManager.Instance.ResumeAllGroupAudio();
+        GameManager.Instance.ResumeGame();
         GameIsPaused = false;
     }
 
@@ -40,6 +41,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GroupManager.Instance.PauseAllGroupAudio();
+        GameManager.Instance.PauseGame();
         GameIsPaused = true;
     }
 

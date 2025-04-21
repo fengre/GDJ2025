@@ -14,6 +14,8 @@ public class NoteGroup
     public float redZoneTimer = 0f;
     public float maxRedZoneTime = 5f; // Customize as needed
     public bool isShutDown = false;
+    public float earliestNoteTime;
+    public bool hasStarted = false;
 
     public void Adjust(float delta)
     {

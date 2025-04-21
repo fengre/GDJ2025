@@ -156,16 +156,26 @@ public class GroupManager : MonoBehaviour
 
     private void Update()
     {
+        double currentSongTime = GameManager.Instance.GetSongTime();
         foreach (var group in groups)
         {
             if (group.isShutDown)
                 continue;
 
+            GroupUIManager.Instance.UpdateGroupValue(group.groupIndex, GroupManager.Instance.GetGroupValue(group.groupIndex));
+
+            if (!group.hasStarted && currentSongTime >= group.earliestNoteTime)
+            {
+                group.hasStarted = true;
+            }
+
+            if (!group.hasStarted)
+                continue; // Skip decay logic
+
             // Regular decay
             float decay = group.groupDecayRate * Time.deltaTime;
             ChangeGroupValue(group.groupIndex, -decay);
-            GroupUIManager.Instance.UpdateGroupValue(group.groupIndex, GroupManager.Instance.GetGroupValue(group.groupIndex));
-
+            
             // Check red zone
             if (group.groupValue < ScoreManager.Instance.okayMin || group.groupValue > ScoreManager.Instance.okayMax)
             {

@@ -12,11 +12,16 @@ public class GameManager : MonoBehaviour
 
     private bool hasEnded = false;
 
+    private void Awake()
+    {
+        GroupManager.Instance.InitializeGroups("1_Groups");
+    }
+
     private void Start()
     {
         // musicSource.Play();
         ScoreManager.Instance.ResetValues();
-        GroupManager.Instance.InitializeGroups();
+        
         songLength = GroupManager.Instance.PlayAllGroupAudio();
         GroupUIManager.Instance.InitializeGroups(GroupManager.Instance.groups);
 

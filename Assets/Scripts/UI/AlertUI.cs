@@ -2,15 +2,21 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 
-public class FeedbackUI : MonoBehaviour
+public class AlertUI : MonoBehaviour
 {
     public TextMeshProUGUI label;
     public CanvasGroup canvasGroup;
-    public float fadeInTime = 0.1f;
-    public float displayTime = 0.5f;
-    public float fadeOutTime = 0.3f;
+    private float fadeInTime = 0.1f;
+    private float displayTime = 0.5f;
+    private float fadeOutTime = 0.3f;
 
     private Coroutine currentRoutine;
+
+    private void Start()
+    {
+        // Start hidden
+        canvasGroup.alpha = 0f;
+    }
 
     public void Show(string message, Color color)
     {

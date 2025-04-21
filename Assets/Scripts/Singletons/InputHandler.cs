@@ -23,10 +23,21 @@ public class InputHandler : MonoBehaviour
             {
                 AttemptHit(lane);
 
-                var line = SpawnManager.Instance.laneJudgementLines[lane];
+                var line = NoteManager.Instance.laneJudgementLines[lane];
                 line.GetComponent<JudgmentLineGlow>().TriggerGlow();
             }
         }
+
+        // listen for 1–4
+        for (int g = 0; g < NoteManager.Instance.noteCsvFiles.Count; g++)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1 + g)) {
+                NoteManager.Instance.SwitchGroup(g);
+                NoteGroup group = GroupManager.Instance.groups[g];
+                SwitchGroupAlertUI.Instance.Show(group.groupName, group.groupColor);
+            }
+        }
+
     }
 
     void AttemptHit(int lane)
@@ -76,7 +87,7 @@ public class InputHandler : MonoBehaviour
                 changeAmount = GroupManager.Instance.goodHitIncrease;
             }
 
-            FeedbackManager.Instance.ShowFeedback(rating);
+            FeedbackAlertUI.Instance.ShowFeedback(rating);
 
             // then:
             GroupManager.Instance.ChangeGroupValue(bestNote.groupIndex, changeAmount);
@@ -90,7 +101,7 @@ public class InputHandler : MonoBehaviour
             //     0f,
             //     0f,
             //     0f);
-            // FeedbackManager.Instance.ShowFeedback(HitRating.Miss, missPos);
+            // FeedbackAlertUI.Instance.ShowFeedback(HitRating.Miss, missPos);
         }
     }
 

@@ -1,20 +1,25 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class LevelItemUI : MonoBehaviour
 {
     [Header("UI References")]
     public TextMeshProUGUI titleText;
     public TextMeshProUGUI bpmText;
+    public Image backgroundImage;
     public Image[] starImages;
 
-    [Header("Star Sprites")]
+     [Header("Star Sprites")]
     public Sprite filledStar;
     public Sprite emptyStar;
 
+    public Color normalColor = Color.white;
+    public Color selectedColor = new Color(1f, 0.85f, 0.6f); // light gold or highlight
+
     [HideInInspector] public SongData assignedSong;
+    private bool isSelected = false;
 
     public void Setup(SongData song)
     {
@@ -30,11 +35,40 @@ public class LevelItemUI : MonoBehaviour
             else
                 starImages[i].sprite = emptyStar;
         }
+
+        UpdateVisual();
     }
 
     public void OnClick()
     {
-        LevelManager.Instance.SetSong(assignedSong);
-        //SceneManager.LoadScene("GameplayScene");
+        if (!isSelected)
+        {
+            foreach (var item in Object.FindObjectsByType<LevelItemUI>(FindObjectsSortMode.None))
+                item.Deselect();
+
+            isSelected = true;
+            LevelManager.Instance.SetSong(assignedSong);
+        }
+        else
+        {
+            isSelected = false;
+            LevelManager.Instance.ClearSong();
+        }
+
+        UpdateVisual();
     }
+
+    public void Deselect()
+    {
+        isSelected = false;
+        UpdateVisual();
+    }
+
+
+    private void UpdateVisual()
+    {
+        backgroundImage.color = isSelected ? selectedColor : normalColor;
+    }
+
+    
 }

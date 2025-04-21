@@ -12,11 +12,19 @@ public class SceneController : MonoBehaviour
 
     public void GoToLevelsMenu()
     {
-        SceneManager.LoadScene("Levels"); // loads the first scene in Build Settings
+        SceneManager.LoadScene("Levels");
     }
 
     public void GoToGame()
     {
-        SceneManager.LoadScene("Gameplay"); // loads the first scene in Build Settings
+        if (LevelManager.Instance.currentSong != null)
+        {
+            SceneManager.LoadScene("Gameplay");
+        }
+        else
+        {
+            Debug.LogWarning("No song selected!");
+            // Optional: Show UI feedback (like a popup or shake effect)
+        }
     }
 }

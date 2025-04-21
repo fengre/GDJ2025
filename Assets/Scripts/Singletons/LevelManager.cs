@@ -15,4 +15,9 @@ public class LevelManager : MonoBehaviour
     {
         currentSong = song;
     }
+
+    public void ClearSong()
+    {
+        currentSong = null;
+    }
 }

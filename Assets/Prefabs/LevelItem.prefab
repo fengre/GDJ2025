@@ -303,7 +303,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &324475508007244314
 RectTransform:
   m_ObjectHideFlags: 0
@@ -572,7 +572,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -652,13 +652,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   titleText: {fileID: 5360013517523726104}
   bpmText: {fileID: 4416955844378999101}
+  backgroundImage: {fileID: 3863383757298482533}
   starImages:
   - {fileID: 7169181266344972861}
   - {fileID: 4783593702645097742}
   - {fileID: 8666984719661613186}
   filledStar: {fileID: 21300000, guid: 8a428566cda12fe46a75f38b722ee5de, type: 3}
   emptyStar: {fileID: -5171355985785468750, guid: 158da6e1af82e094f8dd984f447139c5, type: 3}
-  assignedSong: {fileID: 0}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  selectedColor: {r: 1, g: 0.85, b: 0.6, a: 1}
+  assignedSong:
+    songTitle: 
+    bpm: 
+    difficulty: 0
+    groupCSVName: 
 --- !u!1 &8429467235262853250
 GameObject:
   m_ObjectHideFlags: 0

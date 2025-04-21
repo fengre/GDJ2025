@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (!hasEnded && GetSongTime() >= 25f)
+        if (!hasEnded && GetSongTime() >= songLength)
         {
             hasEnded = true;
             EndGame("Song finished");

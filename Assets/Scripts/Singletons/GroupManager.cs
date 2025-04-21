@@ -37,10 +37,10 @@ public class GroupManager : MonoBehaviour
         }
     }
 
-    public void InitializeGroups()
+    public void InitializeGroups(string csvPath)
     {
         groups.Clear();
-        LoadGroupDataFromCSV("1_Groups");
+        LoadGroupDataFromCSV(csvPath);
     }
 
     private void LoadGroupDataFromCSV(string filepath)
@@ -62,6 +62,9 @@ public class GroupManager : MonoBehaviour
             string hex = tokens[2];
             float decayRate = float.Parse(tokens[3]);
             string audioClipPath = tokens[4];
+            string notesPath = tokens[5];
+
+            NoteManager.Instance.noteCsvFiles.Add(notesPath);
 
             if (!hex.StartsWith("#")) hex = "#" + hex;
             Color color = Color.white;

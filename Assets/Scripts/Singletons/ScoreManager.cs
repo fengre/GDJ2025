@@ -31,8 +31,6 @@ public class ScoreManager : MonoBehaviour
     public int GoodHits => goodHits;
     public int TotalNotes => totalNotes;
 
-    public void RegisterNote() => totalNotes++;
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -55,6 +53,8 @@ public class ScoreManager : MonoBehaviour
         goodHits = 0;
         totalNotes = 0;
     }
+
+    public void RegisterNote() => totalNotes++;
 
     public void RegisterHit(HitRating rating)
     {

@@ -28,7 +28,7 @@ public class JudgmentLineLane : MonoBehaviour
         if (note != null && note.lane == laneIndex && !note.isHit)
         {
             // miss logic...
-            FeedbackManager.Instance.ShowFeedback(HitRating.Miss);
+            FeedbackAlertUI.Instance.ShowFeedback(HitRating.Miss);
             note.isHittable = false;
         }
     }

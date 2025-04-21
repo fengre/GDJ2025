@@ -1,31 +1,13 @@
 using UnityEngine;
 
-public class FeedbackManager : MonoBehaviour
+public class FeedbackAlertUI : AlertUI
 {
-    public static FeedbackManager Instance { get; private set; }
-
-    [Header("Prefab & Parent")]
-    public FeedbackUI feedbackPrefab;   // your HitFeedbackText prefab
-    public RectTransform uiParent;      // the Canvas’s RectTransform
-
-    private FeedbackUI feedbackUI;
+    public static FeedbackAlertUI Instance { get; private set; }
 
     void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
-    }
-
-    void Start()
-    {
-        // Instantiate once, as a child of the UI canvas
-        feedbackUI = Instantiate(feedbackPrefab, uiParent);
-        RectTransform rt = feedbackUI.GetComponent<RectTransform>();
-        // Center it in the canvas
-        rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0.5f);
-        rt.anchoredPosition = new Vector2(0f, -250f);
-        // Start hidden
-        feedbackUI.canvasGroup.alpha = 0f;
     }
 
     /// <summary>
@@ -56,6 +38,6 @@ public class FeedbackManager : MonoBehaviour
                 break;
         }
 
-        feedbackUI.Show(msg, col);
+        Show(msg, col);
     }
 }

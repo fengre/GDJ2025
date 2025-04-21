@@ -34,8 +34,6 @@ public class NoteManager : MonoBehaviour
 
     void Start()
     {
-        LoadAllGroupNoteData(); // CSV file name without extension, in Resources folder.
-
         // Compute a standard travel time using the vertical distance from one lane's spawn point.
         float verticalDistance = Mathf.Abs(laneSpawnPoints[0].position.y - judgmentLine.position.y);
         standardTravelTime = verticalDistance / noteSpeed;
@@ -56,7 +54,7 @@ public class NoteManager : MonoBehaviour
         }
     }
 
-    void LoadAllGroupNoteData()
+    public void LoadAllGroupNoteData()
     {
         groupNoteData = new Dictionary<int, List<NoteData>>();
         for (int g = 0; g < noteCsvFiles.Count; g++)
@@ -66,10 +64,11 @@ public class NoteManager : MonoBehaviour
             groupNoteData[g] = list;
 
             GroupManager.Instance.groups[g].earliestNoteTime = list[0].timeToHit;
+            GroupManager.Instance.UpdateEarliestGroup(list[0].timeToHit, g);
         }
     }
 
-    List<NoteData> LoadNoteDataFromCSV(string resourcePath)
+    private List<NoteData> LoadNoteDataFromCSV(string resourcePath)
     {
         var txt = Resources.Load<TextAsset>(resourcePath);
         if (txt == null) return new List<NoteData>();
@@ -128,6 +127,8 @@ public class NoteManager : MonoBehaviour
         // find the first note whose timeToHit is still in the future
         int idx = notes.FindIndex(n => n.timeToHit >= songTime + standardTravelTime);
         spawnIndex = idx < 0 ? notes.Count : idx;            // if none left, set past the end
+
+        Debug.Log(" " + idx + " " + songTime + " " + spawnIndex);
 
         // 4) (don’t touch your audio—let it keep playing)
     }

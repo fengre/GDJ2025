@@ -41,19 +41,16 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         // musicSource.Play();
-        ScoreManager.Instance.ResetValues();
-        
         songLength = GroupManager.Instance.PlayAllGroupAudio();
-        GroupUIManager.Instance.InitializeGroups(GroupManager.Instance.groups);
-
         songStartDspTime = AudioSettings.dspTime;
+
+        ScoreManager.Instance.ResetValues();
+        NoteManager.Instance.LoadAllGroupNoteData();
+        GroupUIManager.Instance.InitializeGroups(GroupManager.Instance.groups);
+        NoteManager.Instance.SwitchGroup(GroupManager.Instance.earliestGroup);
+
         totalPauseDuration = 0.0;
         isPaused = false;
-    }
-
-    public double GetCurrentSongTime()
-    {
-        return AudioSettings.dspTime - songStartDspTime;
     }
 
     public void PauseGame()

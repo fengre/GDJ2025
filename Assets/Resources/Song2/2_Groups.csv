@@ -1,0 +1,7 @@
+# Groups
+groupIndex,name,hex,decayRate,audioClipPath,notesPath
+0,Woodwind,A2834D,1.4,2_wood,Song2/2_Notes_Woodwind
+1,Piano,8C6FA9,7.4,2_piano,Song2/2_Notes_Piano
+2,String,B77154,0.76,2_string,Song2/2_Notes_String
+3,Bass,6696C6,1.6,2_bass,Song2/2_Notes_Bass
+4,Drum,88BD79,4.25,2_drum,Song2/2_Notes_Drum

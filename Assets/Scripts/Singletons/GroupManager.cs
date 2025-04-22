@@ -214,6 +214,8 @@ public class GroupManager : MonoBehaviour
         {
             GameManager.Instance.EndGame("Too many groups shut down!");
         }
+
+        GroupUIManager.Instance.GrayOut(group.groupIndex);
     }
 
     /// <summary>

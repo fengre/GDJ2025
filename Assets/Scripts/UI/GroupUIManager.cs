@@ -34,4 +34,10 @@ public class GroupUIManager : MonoBehaviour
         if (groupUIs.TryGetValue(groupIndex, out var ui))
             ui.SetValue(newValue);
     }
+
+    public void GrayOut(int groupIndex)
+    {
+        if (groupUIs.TryGetValue(groupIndex, out SingleGroupUI groupUI))
+            groupUI.SetGrayedOut(true);
+    }
 }

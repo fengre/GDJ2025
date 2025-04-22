@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 2442759186444995439}
   - component: {fileID: 1440406921136594342}
   - component: {fileID: 4097607826903498893}
+  - component: {fileID: 5323524401939728412}
   m_Layer: 5
   m_Name: GroupDisplayUIPrefab
   m_TagString: Untagged
@@ -233,6 +234,19 @@ MonoBehaviour:
     max: 100
     color: {r: 1, g: 0, b: 0, a: 1}
   lerpSpeed: 10
+  groupCanvasGroup: {fileID: 5323524401939728412}
+--- !u!225 &5323524401939728412
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4624916735018427674}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7280592185143624998
 GameObject:
   m_ObjectHideFlags: 0

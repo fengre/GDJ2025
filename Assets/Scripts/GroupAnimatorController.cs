@@ -48,9 +48,6 @@ public class GroupAnimatorController : MonoBehaviour
     public int groupIndex;
     private Animator animator;
 
-    private float redZoneTimer = 0f;
-    public float redZoneThreshold = 5f;
-
     private string currentState = "Normal";
 
     void Start()
@@ -63,28 +60,20 @@ public class GroupAnimatorController : MonoBehaviour
         if (GroupManager.Instance == null || groupIndex >= GroupManager.Instance.groups.Count)
             return;
 
-        float value = GroupManager.Instance.groups[groupIndex].groupValue;
+        NoteGroup group = GroupManager.Instance.groups[groupIndex];
+        float value = group.groupValue;
 
-        if (IsInRedZone(value))
+        if (group.isShutDown && currentState != "Death")
         {
-            redZoneTimer += Time.deltaTime;
-
-            if (redZoneTimer >= redZoneThreshold && currentState != "Death")
-            {
-                SetState("Death");
-                return; // Don't allow back out of death
-            }
-        }
-        else
-        {
-            redZoneTimer = 0f; // reset if not in red
+            SetState("Death");
+            return; // Don't allow back out of death
         }
 
         if (currentState == "Death") return; // lock into death once triggered
 
-        if (value < 25f || value > 75f)
+        if (value < ScoreManager.Instance.okayMin || value > ScoreManager.Instance.okayMax)
             SetState("Panic");
-        else if (value < 45f || value > 55f)
+        else if (value < ScoreManager.Instance.idealMin || value > ScoreManager.Instance.idealMax)
             SetState("Danger");
         else
             SetState("Normal");
@@ -97,7 +86,5 @@ public class GroupAnimatorController : MonoBehaviour
         currentState = newState;
         animator.Play(newState);
     }
-
-    private bool IsInRedZone(float val) => val < 25f || val > 75f;
 }
 

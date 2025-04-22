@@ -101,8 +101,13 @@ public class NoteManager : MonoBehaviour
 
         // color it using the currently active group's color
         var col = GroupManager.Instance.groups[activeGroup].groupColor;
+        // if disabled, grey it out
+        if (GroupManager.Instance.groups[activeGroup].isShutDown) {
+            col = Color.gray;
+        }
+
         var sr  = go.GetComponent<SpriteRenderer>();
-        if (sr != null) sr.color = col;
+        if (sr != null) sr.color = col;      
 
         // configure mover
         var mover = go.GetComponent<NoteMover>();

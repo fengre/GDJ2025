@@ -3760,6 +3760,8 @@ MonoBehaviour:
   goodHitIncrease: 2
   missDecrease: 5
   maxAllowedShutdowns: 5
+  earliestGroupTime: 1.7976931348623157e+308
+  earliestGroup: 0
 --- !u!114 &1807121166
 MonoBehaviour:
   m_ObjectHideFlags: 0

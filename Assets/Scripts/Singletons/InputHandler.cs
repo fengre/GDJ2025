@@ -62,7 +62,7 @@ public class InputHandler : MonoBehaviour
         
         HitRating rating;
         if (bestNote != null && smallestDistance <= hitThreshold)
-        {
+        {            
             bestNote.isHit = true;
             Destroy(bestNote.gameObject);
 
@@ -87,12 +87,12 @@ public class InputHandler : MonoBehaviour
                 changeAmount = GroupManager.Instance.goodHitIncrease;
             }
 
-            FeedbackAlertUI.Instance.ShowFeedback(rating);
-
             // then:
+            FeedbackAlertUI.Instance.ShowFeedback(rating);
             GroupManager.Instance.ChangeGroupValue(bestNote.groupIndex, changeAmount);
             GroupUIManager.Instance.UpdateGroupValue(bestNote.groupIndex, GroupManager.Instance.GetGroupValue(bestNote.groupIndex));
             ScoreManager.Instance.RegisterHit(rating);
+            
         }
         else
         {

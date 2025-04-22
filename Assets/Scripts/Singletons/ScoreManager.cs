@@ -96,6 +96,7 @@ public class ScoreManager : MonoBehaviour
 
         foreach (var group in GroupManager.Instance.groups)
         {
+            if (!group.hasStarted) continue;
             if (group.groupValue >= idealMin && group.groupValue <= idealMax)
             {
                 earned += perfectPointsPerSecond;

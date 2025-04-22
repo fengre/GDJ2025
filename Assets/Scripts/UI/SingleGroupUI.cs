@@ -83,4 +83,14 @@ public class SingleGroupUI : MonoBehaviour
     {
         targetNorm = Mathf.Clamp01(value / 100f);
     }
+
+    public CanvasGroup groupCanvasGroup;
+
+    public void SetGrayedOut(bool isGrayedOut)
+    {
+        groupCanvasGroup.alpha = isGrayedOut ? 0.5f : 1f;
+        groupCanvasGroup.interactable = !isGrayedOut;
+        groupCanvasGroup.blocksRaycasts = !isGrayedOut;
+    }
+
 }

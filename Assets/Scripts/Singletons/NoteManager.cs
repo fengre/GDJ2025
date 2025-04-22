@@ -104,6 +104,7 @@ public class NoteManager : MonoBehaviour
         // if disabled, grey it out
         if (GroupManager.Instance.groups[activeGroup].isShutDown) {
             col = Color.gray;
+            go.GetComponent<Collider2D>().enabled = false;
         }
 
         var sr  = go.GetComponent<SpriteRenderer>();

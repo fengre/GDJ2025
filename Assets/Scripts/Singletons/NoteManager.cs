@@ -132,9 +132,7 @@ public class NoteManager : MonoBehaviour
         var notes = groupNoteData[activeGroup];
         // find the first note whose timeToHit is still in the future
         int idx = notes.FindIndex(n => n.timeToHit >= songTime + standardTravelTime);
-        spawnIndex = idx < 0 ? notes.Count : idx;            // if none left, set past the end
-
-        Debug.Log(" " + idx + " " + songTime + " " + spawnIndex);
+        spawnIndex = idx < 0 ? notes.Count : idx;            // if none left, set past the end        
 
         // 4) (don’t touch your audio—let it keep playing)
     }

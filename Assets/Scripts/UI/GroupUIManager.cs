@@ -23,7 +23,7 @@ public class GroupUIManager : MonoBehaviour
         {
             var go = Instantiate(groupDisplayPrefab, parentPanel);
             var ui = go.GetComponent<SingleGroupUI>();
-            ui.SetGroupName(group.groupName);
+            ui.SetGroupText(group);
             ui.SetValue(group.groupValue);
             groupUIs[group.groupIndex] = ui;
         }

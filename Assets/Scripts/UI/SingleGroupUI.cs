@@ -10,6 +10,7 @@ public class SingleGroupUI : MonoBehaviour
     public TextMeshProUGUI groupNameText;
     public RectTransform barBackground;  // container for zones & tick
     public RectTransform tick;
+    public CanvasGroup groupCanvasGroup;
 
     [Header("Zones (0–100)")]
     [Tooltip("Define each colored zone by its min/max value (0–100) and color.")]
@@ -74,17 +75,16 @@ public class SingleGroupUI : MonoBehaviour
         tick.anchoredPosition = pos;
     }
 
-    public void SetGroupName(string name)
+    public void SetGroupText(NoteGroup group)
     {
-        groupNameText.text = name;
+        groupNameText.text = (group.groupIndex + 1) + " | " + group.groupName;
+        groupNameText.color = group.groupColor;
     }
 
     public void SetValue(float value)
     {
         targetNorm = Mathf.Clamp01(value / 100f);
     }
-
-    public CanvasGroup groupCanvasGroup;
 
     public void SetGrayedOut(bool isGrayedOut)
     {

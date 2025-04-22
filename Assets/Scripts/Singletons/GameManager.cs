@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     private double totalPauseDuration = 0.0;
     private double songLength;
 
-    private bool hasEnded = false;
+    //public static bool songFinished = false;
 
     private void Awake()
     {
@@ -69,9 +69,9 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (!hasEnded && GetSongTime() >= songLength)
+        if (!MusicTracker.songFinished && GetSongTime() >= songLength)
         {
-            hasEnded = true;
+            MusicTracker.songFinished = true;
             EndGame("Song finished");
         }
     }

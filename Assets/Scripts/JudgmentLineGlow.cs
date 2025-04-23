@@ -16,8 +16,14 @@ public class JudgmentLineGlow : MonoBehaviour
 
     public void TriggerGlow()
     {
-        StopAllCoroutines();
-        StartCoroutine(GlowCoroutine());
+        rend.material.color = glowColor;
+        // StopAllCoroutines();
+        // StartCoroutine(GlowCoroutine());
+    }
+
+    public void CancelGlow()
+    {
+        rend.material.color = originalColor;
     }
 
     private IEnumerator GlowCoroutine()

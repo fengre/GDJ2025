@@ -29,6 +29,7 @@ public class JudgmentLineLane : MonoBehaviour
         {
             // miss logic...
             FeedbackAlertUI.Instance.ShowFeedback(HitRating.Miss);
+            Debug.Log("note got missed: " + note.duration);
             note.isHittable = false;
         }
     }

@@ -13,12 +13,18 @@ public class NoteManager : MonoBehaviour
 
     [Header("Spawn Settings")]
     public Transform[] laneSpawnPoints;
-    public GameObject notePrefab;
+    public GameObject tapNotePrefab;
+    public GameObject holdNotePrefab;
     public float noteSpeed = 300f;
 
     [Header("Lane Settings")]
     public GameObject[] laneJudgementLines; // Set these in the Inspector (four lanes).
     public Transform judgmentLine;      // Reference to your judgment line.
+
+    [Header("Timing Thresholds (world units)")]
+    public float hitThreshold     = 1f;
+    public float greatThreshold   = 0.5f;
+    public float perfectThreshold = 0.1f;
 
 
     private Dictionary<int, List<NoteData>> groupNoteData;
@@ -36,6 +42,7 @@ public class NoteManager : MonoBehaviour
     {
         // Compute a standard travel time using the vertical distance from one lane's spawn point.
         float verticalDistance = Mathf.Abs(laneSpawnPoints[0].position.y - judgmentLine.position.y);
+        
         standardTravelTime = verticalDistance / noteSpeed;
     }
 
@@ -47,7 +54,16 @@ public class NoteManager : MonoBehaviour
         while (spawnIndex < notes.Count &&
             notes[spawnIndex].timeToHit <= songTime + standardTravelTime)
         {
-            SpawnNote(notes[spawnIndex]);
+            if (notes[spawnIndex].duration > 0f)
+            {
+                // Spawn a hold note
+                SpawnNote(notes[spawnIndex], holdNotePrefab);
+            }
+            else
+            {
+                // Spawn a regular note
+                SpawnNote(notes[spawnIndex], tapNotePrefab);
+            }
             spawnIndex++;
 
             ScoreManager.Instance.RegisterNote();
@@ -83,38 +99,44 @@ public class NoteManager : MonoBehaviour
                 continue;
 
             var t = line.Split(',');
-            if (float.TryParse(t[0], out float time))
-                result.Add(new NoteData { timeToHit = time });
+            if (t.Length >= 3 &&
+                float.TryParse(t[0], NumberStyles.Float, CultureInfo.InvariantCulture, out float startTime) &&
+                float.TryParse(t[1], NumberStyles.Float, CultureInfo.InvariantCulture, out float endTime) &&
+                int.TryParse(t[2], out int lane))
+            {
+                result.Add(new NoteData
+                {
+                    timeToHit = startTime,
+                    lane = lane,
+                    duration = endTime - startTime
+                });
+            }
         }
         return result;
     }
 
 
-    void SpawnNote(NoteData data)
+    void SpawnNote(NoteData data, GameObject notePrefab)
     {
         // pick a random lane
-        int lane = Random.Range(0, laneSpawnPoints.Length);
-        var spawnPoint = laneSpawnPoints[lane];
+        var spawnPoint = laneSpawnPoints[data.lane];
 
         // instantiate
         var go = Instantiate(notePrefab, spawnPoint.position, Quaternion.identity);
 
         // color it using the currently active group's color
         var col = GroupManager.Instance.groups[activeGroup].groupColor;
-        // if disabled, grey it out
-        if (GroupManager.Instance.groups[activeGroup].isShutDown) {
-            col = Color.gray;
-            go.GetComponent<Collider2D>().enabled = false;
-        }
-
-        var sr  = go.GetComponent<SpriteRenderer>();
-        if (sr != null) sr.color = col;      
 
         // configure mover
         var mover = go.GetComponent<NoteMover>();
-        mover.moveSpeed  = noteSpeed;
-        mover.lane       = lane;
-        mover.groupIndex = activeGroup;
+        mover.Initialize(data, activeGroup, noteSpeed, col);
+
+        // if disabled, grey it out
+        if (GroupManager.Instance.groups[activeGroup].isShutDown) {
+            mover.GrayOut();
+        }
+
+        
     }
 
     public void SwitchGroup(int g)

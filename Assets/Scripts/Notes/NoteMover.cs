@@ -1,27 +1,54 @@
 using UnityEngine;
 
-public class NoteMover : MonoBehaviour
+public abstract class NoteMover : MonoBehaviour
 {
-    public float moveSpeed = 300f;
-    public int lane;
-    public int groupIndex;    // This determines the group.
-    public bool isHittable = false;
-    public bool isHit = false;
+    public int lane, groupIndex;
+    protected float moveSpeed;
+    public float duration;
+    public bool isHittable, isHit;
 
-    void Update()
+    public Transform head;
+
+    public virtual void Initialize(NoteData data, int group, float speed, Color color)
     {
-        // Move note downward.
-        transform.Translate(Vector3.down * moveSpeed * Time.deltaTime);
+        lane       = data.lane;
+        groupIndex = group;
+        moveSpeed  = speed;
+        duration = data.duration;
+        ApplyColor(head, color);
+
+        var headCollider = head.GetComponent<BoxCollider2D>();
+        if (headCollider != null)
+        {
+            float threshold = NoteManager.Instance.hitThreshold; // or InputHandler.Instance.hitThreshold;
+            headCollider.size = new Vector2(headCollider.size.x, threshold * 2f);
+            headCollider.offset = new Vector2(0f, 0f); // or tweak if needed
+        }
     }
+
+    public virtual void GrayOut()
+    {
+        ApplyColor(head, Color.gray);
+        GetComponent<Collider2D>().enabled = false;
+    }
+
+    protected void ApplyColor(Transform t, Color c)
+    {
+        if (t == null) return;
+        var sr = t.GetComponent<SpriteRenderer>();
+        if (sr != null) sr.color = c;
+    }
+
+    protected virtual void Update() => transform.Translate(Vector3.down * moveSpeed * Time.deltaTime);
+    public void SetHittable(bool v) => isHittable = v;
 
     void OnBecameInvisible()
     {
-        // If the note went off-screen without being hit, register a miss.
-        if (!isHit)
-        {
-            // Tell the GroupManager to decrease the group value.
-            // GroupManager.Instance.ChangeGroupValue(noteColor, -GroupManager.Instance.missDecrease);
-        }
+        if (!isHit) ScoreManager.Instance.RegisterMiss();
         Destroy(gameObject);
     }
+
+    public abstract HitRating? TryTapHit(float hitThres, float greatThres, float perfThres, float judgmentY);
+    public abstract bool TryBeginHold(double dspTime, float hitThres, float judgmentY);
+    public abstract HitRating EndHold(double dspTime);
 }

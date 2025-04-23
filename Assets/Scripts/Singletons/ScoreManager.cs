@@ -16,6 +16,8 @@ public class ScoreManager : MonoBehaviour
     public int perfectPointsPerSecond = 10;
     public int okayPointsPerSecond = 5;
 
+    public int missPenalty = 1;
+
     private float scoreTimer = 0f;
     private int totalScore = 0;
 
@@ -88,6 +90,11 @@ public class ScoreManager : MonoBehaviour
                 totalScore += earned;
             }
         }
+    }
+
+    public void RegisterMiss()
+    {
+        totalScore -= missPenalty;
     }
 
     private int CalculateScoreFromGroups()

@@ -9,7 +9,7 @@ public class GroupUIManager : MonoBehaviour
     public GameObject groupDisplayPrefab;
     public Transform parentPanel;
 
-    private Dictionary<int, SingleGroupUI> groupUIs = new();
+    public Dictionary<int, SingleGroupUI> groupUIs = new();
 
     void Awake()
     {
@@ -23,7 +23,7 @@ public class GroupUIManager : MonoBehaviour
         {
             var go = Instantiate(groupDisplayPrefab, parentPanel);
             var ui = go.GetComponent<SingleGroupUI>();
-            ui.SetGroupText(group);
+            ui.InitializeGroup(group);
             ui.SetValue(group.groupValue);
             groupUIs[group.groupIndex] = ui;
         }

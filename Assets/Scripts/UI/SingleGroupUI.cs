@@ -8,6 +8,9 @@ public class SingleGroupUI : MonoBehaviour
 {
     [Header("UI References")]
     public TextMeshProUGUI groupNameText;
+    public Image groupIcon;
+    public Image groupBackground;  // background color of the group
+    public Color grayBackgroundColor;
     public RectTransform barBackground;  // container for zones & tick
     public RectTransform tick;
     public CanvasGroup groupCanvasGroup;
@@ -31,10 +34,12 @@ public class SingleGroupUI : MonoBehaviour
     {
         [Range(0,100)] public float min, max;
         public Color color;
+        public Color grayColor;
     }
 
     float barWidth;
     float currentNorm, targetNorm;
+    private List<GameObject> zoneObjects = new List<GameObject>();
 
     void Start()
     {
@@ -58,6 +63,7 @@ public class SingleGroupUI : MonoBehaviour
             img.color = z.color;
             // ensure these are behind the tick
             go.transform.SetSiblingIndex(0);
+            zoneObjects.Add(go);
         }
 
         // initialize positions
@@ -75,10 +81,24 @@ public class SingleGroupUI : MonoBehaviour
         tick.anchoredPosition = pos;
     }
 
-    public void SetGroupText(NoteGroup group)
+    public void InitializeGroup(NoteGroup group)
     {
-        groupNameText.text = (group.groupIndex + 1) + " | " + group.groupName;
-        groupNameText.color = group.groupColor;
+        groupNameText.text = group.groupName.ToUpper();
+        Color bgColor = group.groupColor;
+        bgColor.a = 0.25f;
+        groupBackground.color = bgColor;
+
+        // Assuming you have a list of sprites for the icons, indexed 1-5
+        Sprite[] groupIcons = Resources.LoadAll<Sprite>("GroupIcons"); // Ensure these are in a "Resources/GroupIcons" folder
+
+        if (group.groupIndex >= 0 && group.groupIndex < groupIcons.Length)
+        {
+            groupIcon.sprite = groupIcons[group.groupIndex];
+        }
+        else
+        {
+            Debug.LogWarning($"Invalid groupIndex {group.groupIndex}. Must be between 0 and 4.");
+        }
     }
 
     public void SetValue(float value)
@@ -91,6 +111,30 @@ public class SingleGroupUI : MonoBehaviour
         groupCanvasGroup.alpha = isGrayedOut ? 0.5f : 1f;
         groupCanvasGroup.interactable = !isGrayedOut;
         groupCanvasGroup.blocksRaycasts = !isGrayedOut;
+        groupBackground.color = grayBackgroundColor;
+
+        for (int i = 0; i < zones.Count; i++)
+        {
+            var z = zones[i];
+            var go = zoneObjects[i];
+            var img = go.GetComponent<Image>();
+            img.color = z.grayColor;
+        }
+
+    }
+
+    public void Select()
+    {
+        Color bgColor = groupBackground.color;
+        bgColor.a = 1f;
+        groupBackground.color = bgColor;
+    }
+
+    public void Deselect()
+    {
+        Color bgColor = groupBackground.color;
+        bgColor.a = 0.25f;
+        groupBackground.color = bgColor;
     }
 
 }

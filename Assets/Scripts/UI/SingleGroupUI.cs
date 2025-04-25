@@ -14,6 +14,8 @@ public class SingleGroupUI : MonoBehaviour
     public RectTransform barBackground;  // container for zones & tick
     public RectTransform tick;
     public CanvasGroup groupCanvasGroup;
+    public Button button;
+    private int groupIndex;
 
     [Header("Zones (0–100)")]
     [Tooltip("Define each colored zone by its min/max value (0–100) and color.")]
@@ -40,6 +42,11 @@ public class SingleGroupUI : MonoBehaviour
     float barWidth;
     float currentNorm, targetNorm;
     private List<GameObject> zoneObjects = new List<GameObject>();
+
+    void Awake()
+    {
+        button.onClick.AddListener(OnGroupClick);
+    }
 
     void Start()
     {
@@ -70,6 +77,12 @@ public class SingleGroupUI : MonoBehaviour
         currentNorm = targetNorm = 0f;
     }
 
+    private void OnGroupClick()
+    {
+        // Only switch if the group isn't shut down
+        NoteManager.Instance.SwitchGroup(groupIndex);
+    }
+
     void Update()
     {
         // smoothly move toward the new target
@@ -83,9 +96,10 @@ public class SingleGroupUI : MonoBehaviour
 
     public void InitializeGroup(NoteGroup group)
     {
+        groupIndex = group.groupIndex;
         groupNameText.text = group.groupName.ToUpper();
         Color bgColor = group.groupColor;
-        bgColor.a = 0.25f;
+        bgColor.a = 0.1f;
         groupBackground.color = bgColor;
 
         // Assuming you have a list of sprites for the icons, indexed 1-5
@@ -133,7 +147,7 @@ public class SingleGroupUI : MonoBehaviour
     public void Deselect()
     {
         Color bgColor = groupBackground.color;
-        bgColor.a = 0.25f;
+        bgColor.a = 0.1f;
         groupBackground.color = bgColor;
     }
 

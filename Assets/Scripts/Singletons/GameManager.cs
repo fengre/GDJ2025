@@ -94,7 +94,11 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game Over: " + reason);
         int finalScore = FindFirstObjectByType<ScoreManager>().GetTotalScore();
         PlayerPrefs.SetInt("FinalScore", finalScore);
-        LeaderboardManager.SaveScore(finalScore);
+        
+        // Pass the current song's title when saving the score
+        string songTitle = LevelManager.Instance.currentSong.songTitle;
+        LeaderboardManager.SaveScore(finalScore, songTitle);
+        
         SceneManager.LoadScene("End");
     }
 

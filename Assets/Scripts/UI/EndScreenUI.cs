@@ -36,12 +36,19 @@ public class EndScreen : MonoBehaviour
 
     private void ShowLeaderboard()
     {
-        List<int> topScores = LeaderboardManager.GetScores();
-        leaderboardText.text = "";
+        string songTitle = LevelManager.Instance.currentSong.songTitle;
+        List<int> topScores = LeaderboardManager.GetScores(songTitle);
+        leaderboardText.text = $"Leaderboard - {songTitle}\n\n";
+
+        if (topScores.Count == 0)
+        {
+            leaderboardText.text += "No scores yet!";
+            return;
+        }
 
         for (int i = 0; i < topScores.Count; i++)
         {
-            leaderboardText.text += $"{i + 1}. {topScores[i]}\n";
+            leaderboardText.text += $"{i + 1}. {topScores[i]:N0}\n";
         }
     }
 

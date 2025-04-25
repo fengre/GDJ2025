@@ -1,5 +1,8 @@
 // File: InputHandler.cs
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class InputHandler : MonoBehaviour
 {
@@ -7,12 +10,42 @@ public class InputHandler : MonoBehaviour
     public KeyCode[] laneKeys = { KeyCode.D, KeyCode.F, KeyCode.J, KeyCode.K };
     public Transform judgmentLine;
 
+    [Header("Mobile Input")]
+    public Button[] laneButtons;  // Assign in inspector
+    private Dictionary<int, bool> laneButtonStates = new Dictionary<int, bool>();
+
     // Track the hold note we started per lane
     private NoteMover[] activeHoldNotes;
 
     void Awake()
     {
         activeHoldNotes = new NoteMover[laneKeys.Length];
+
+        // Initialize button states and add listeners
+        for (int i = 0; i < laneButtons.Length; i++)
+        {
+            int lane = i; // Capture for lambda
+            laneButtonStates[i] = false;
+
+            if (laneButtons[i] != null)
+            {
+                // Add pointer down/up events for hold notes
+                var trigger = laneButtons[i].gameObject.AddComponent<EventTrigger>();
+                
+                // PointerDown event
+                var entry1 = new EventTrigger.Entry();
+                entry1.eventID = EventTriggerType.PointerDown;
+                entry1.callback.AddListener((data) => { HandleLaneButtonDown(lane); });
+                trigger.triggers.Add(entry1);
+                
+                // PointerUp event
+                var entry2 = new EventTrigger.Entry();
+                entry2.eventID = EventTriggerType.PointerUp;
+                entry2.callback.AddListener((data) => { HandleLaneButtonUp(lane); });
+                trigger.triggers.Add(entry2);
+            }
+        }
+    
     }
 
     void Update()
@@ -22,6 +55,18 @@ public class InputHandler : MonoBehaviour
 
         HandleLaneInput(songTime, judgmentY);
         HandleGroupSwitching();
+    }
+
+    private void HandleLaneButtonDown(int lane)
+    {
+        laneButtonStates[lane] = true;
+        HandleKeyDown(lane, GameManager.Instance.GetSongTime(), judgmentLine.position.y);
+    }
+
+    private void HandleLaneButtonUp(int lane)
+    {
+        laneButtonStates[lane] = false;
+        HandleKeyUp(lane, GameManager.Instance.GetSongTime());
     }
 
     private void HandleLaneInput(double songTime, float judgmentY)
@@ -68,6 +113,13 @@ public class InputHandler : MonoBehaviour
                    .laneJudgementLines[lane]
                    .GetComponent<JudgmentLineGlow>()
                    .TriggerGlow();
+
+        var textComponent = laneButtons[lane].GetComponentInChildren<TMPro.TextMeshProUGUI>();
+        if (textComponent != null)
+        {
+            textComponent.color = Color.gray;
+        }
+        
     }
 
     private void HandleTap(int lane, NoteMover[] notes, float judgmentY)
@@ -108,6 +160,12 @@ public class InputHandler : MonoBehaviour
                    .laneJudgementLines[lane]
                    .GetComponent<JudgmentLineGlow>()
                    .CancelGlow();
+
+        var textComponent = laneButtons[lane].GetComponentInChildren<TMPro.TextMeshProUGUI>();
+        if (textComponent != null)
+        {
+            textComponent.color = Color.white;
+        }
     }
 
     private void HandleGroupSwitching()

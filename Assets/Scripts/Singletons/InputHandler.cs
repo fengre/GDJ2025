@@ -117,8 +117,37 @@ public class InputHandler : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha1 + g))
             {
                 NoteManager.Instance.SwitchGroup(g);
-                var grp = GroupManager.Instance.groups[g];
-                SwitchGroupAlertUI.Instance.Show(grp.groupName, grp.groupColor);
+            }
+        }
+
+        // Modified arrow key handling
+        int currentGroup = NoteManager.Instance.activeGroup;
+        int totalGroups = GroupManager.Instance.groups.Count;
+        
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            // Try previous groups until finding one that's not shutdown
+            for (int i = 1; i <= totalGroups; i++)
+            {
+                int newGroup = (currentGroup - i + totalGroups) % totalGroups;
+                if (!GroupManager.Instance.groups[newGroup].isShutDown)
+                {
+                    NoteManager.Instance.SwitchGroup(newGroup);
+                    break;
+                }
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            // Try next groups until finding one that's not shutdown
+            for (int i = 1; i <= totalGroups; i++)
+            {
+                int newGroup = (currentGroup + i) % totalGroups;
+                if (!GroupManager.Instance.groups[newGroup].isShutDown)
+                {
+                    NoteManager.Instance.SwitchGroup(newGroup);
+                    break;
+                }
             }
         }
     }

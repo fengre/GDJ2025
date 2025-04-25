@@ -28,7 +28,7 @@ public class NoteManager : MonoBehaviour
 
 
     private Dictionary<int, List<NoteData>> groupNoteData;
-    private int activeGroup = 0;
+    public int activeGroup = 0;
     private int spawnIndex = 0; 
     private float standardTravelTime;
 
@@ -144,9 +144,17 @@ public class NoteManager : MonoBehaviour
         // 1) Destroy any existing notes
         // foreach (var n in FindObjectsByType<NoteMover>(FindObjectsSortMode.None))
         //     Destroy(n.gameObject);
+        GroupUIManager.Instance.groupUIs[activeGroup].Deselect();
+        
+
+        NoteGroup group = GroupManager.Instance.groups[g];
+        if (group.isShutDown) {
+            SwitchGroupAlertUI.Instance.Show(group.groupName + " Shutdown", Color.red);
+            return; // don't switch to a shut down group
+        }
 
         // 2) Change the active group
-        activeGroup = g;
+        activeGroup = g;        
 
         // 3) Recompute spawnIndex based on current song time
         double songTime = GameManager.Instance.GetSongTime();              // how many seconds into the track we are
@@ -157,6 +165,12 @@ public class NoteManager : MonoBehaviour
         spawnIndex = idx < 0 ? notes.Count : idx;            // if none left, set past the end        
 
         // 4) (don’t touch your audio—let it keep playing)
+
+        // Show alert
+        SwitchGroupAlertUI.Instance.Show(group.groupName, group.groupColor);
+
+        // Update group UI
+        GroupUIManager.Instance.groupUIs[activeGroup].Select();
     }
 
 }

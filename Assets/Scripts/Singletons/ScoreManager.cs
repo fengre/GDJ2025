@@ -8,10 +8,10 @@ public class ScoreManager : MonoBehaviour
     public static ScoreManager Instance { get; private set; }
 
     [Header("Score Settings")]
-    public float idealMin = 45f;
-    public float idealMax = 55f;
-    public float okayMin = 25f;
-    public float okayMax = 75f;
+    public float idealMin = 35f;
+    public float idealMax = 65f;
+    public float okayMin = 15f;
+    public float okayMax = 85f;
 
     public int perfectPointsPerSecond = 10;
     public int okayPointsPerSecond = 5;

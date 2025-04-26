@@ -26,7 +26,9 @@ public class GroupManager : MonoBehaviour
     private int currentShutdowns = 0;
 
     public double earliestGroupTime = double.MaxValue;
+    public double latestGroupTime = 0;
     public int earliestGroup;
+    public int latestGroup;
 
     void Awake()
     {
@@ -163,12 +165,20 @@ public class GroupManager : MonoBehaviour
         }
     }
 
+    public void UpdateLatestGroup(double timeToHit, int group)
+    {
+        if (timeToHit > latestGroupTime) {
+            latestGroup = group;
+            latestGroupTime = timeToHit;
+        }
+    }
+
     private void Update()
     {
         double currentSongTime = GameManager.Instance.GetSongTime();
         foreach (var group in groups)
         {
-            if (group.isShutDown)
+            if (group.isShutDown || currentSongTime > group.latestNoteTime)
                 continue;
 
             GroupUIManager.Instance.UpdateGroupValue(group.groupIndex, GroupManager.Instance.GetGroupValue(group.groupIndex));

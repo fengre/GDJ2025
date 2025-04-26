@@ -81,6 +81,9 @@ public class NoteManager : MonoBehaviour
 
             GroupManager.Instance.groups[g].earliestNoteTime = list[0].timeToHit;
             GroupManager.Instance.UpdateEarliestGroup(list[0].timeToHit, g);
+
+            GroupManager.Instance.groups[g].latestNoteTime = list[list.Count - 1].timeToHit;
+            GroupManager.Instance.UpdateLatestGroup(list[list.Count - 1].timeToHit, g);
         }
     }
 

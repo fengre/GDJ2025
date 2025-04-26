@@ -21,11 +21,11 @@ public class SingleGroupUI : MonoBehaviour
     [Tooltip("Define each colored zone by its min/max value (0–100) and color.")]
     public List<Zone> zones = new List<Zone>()
     {
-        new Zone{ min=0,   max=25,  color=Color.red    },
-        new Zone{ min=25,  max=45,  color=Color.yellow },
-        new Zone{ min=45,  max=55,  color=Color.green  },
-        new Zone{ min=55,  max=75,  color=Color.yellow },
-        new Zone{ min=75,  max=100, color=Color.red    },
+        new Zone{ min=0,   max=15,  color=Color.red    },
+        new Zone{ min=15,  max=35,  color=Color.yellow },
+        new Zone{ min=35,  max=65,  color=Color.green  },
+        new Zone{ min=65,  max=85,  color=Color.yellow },
+        new Zone{ min=85,  max=100, color=Color.red    },
     };
 
     [Header("Lerp Settings")]
@@ -50,6 +50,15 @@ public class SingleGroupUI : MonoBehaviour
 
     void Start()
     {
+        zones = new List<Zone>()
+        {
+            new Zone{ min=0,   max=ScoreManager.Instance.okayMin,  color=Color.red    },
+            new Zone{ min=ScoreManager.Instance.okayMin,  max=ScoreManager.Instance.idealMin,  color=Color.yellow },
+            new Zone{ min=ScoreManager.Instance.idealMin,  max=ScoreManager.Instance.idealMax,  color=Color.green  },
+            new Zone{ min=ScoreManager.Instance.idealMax,  max=ScoreManager.Instance.okayMax,  color=Color.yellow },
+            new Zone{ min=ScoreManager.Instance.okayMax,  max=100, color=Color.red    },
+        };
+
         // cache bar width
         barWidth = barBackground.rect.width;
 

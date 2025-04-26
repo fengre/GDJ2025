@@ -662,7 +662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 903369843}
-  streakText: {fileID: 0}
+  streakText: {fileID: 334810741}
   ratingText: {fileID: 851170856}
   scoreLeaderboardText: {fileID: 1649907993}
   streakLeaderboardText: {fileID: 26663753}

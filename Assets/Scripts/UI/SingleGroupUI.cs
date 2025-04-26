@@ -16,7 +16,7 @@ public class SingleGroupUI : MonoBehaviour
     public CanvasGroup groupCanvasGroup;
     public Button button;
     private int groupIndex;
-    private bool locked = false;
+    public bool locked = false;
 
     [Header("Zones (0–100)")]
     [Tooltip("Define each colored zone by its min/max value (0–100) and color.")]

@@ -9,8 +9,19 @@ public class EndSceneBackground : MonoBehaviour
 
     void Start()
     {
-        backgroundImage.sprite = MusicTracker.songFinished
+        bool finished = MusicTracker.songFinished;
+
+        backgroundImage.sprite = finished
             ? finishedSongBackground
             : interruptedSongBackground;
+
+        // Play corresponding sound
+        if (UISoundPlayer.Instance != null)
+        {
+            if (finished)
+                UISoundPlayer.Instance.PlayWin();
+            else
+                UISoundPlayer.Instance.PlayLose();
+        }
     }
 }

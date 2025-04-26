@@ -15,7 +15,6 @@ public class ScoreManager : MonoBehaviour
 
     public int perfectPointsPerSecond = 10;
     public int okayPointsPerSecond = 5;
-
     public int missPenalty = 1;
 
     private float scoreTimer = 0f;
@@ -37,12 +36,28 @@ public class ScoreManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject); // Prevent duplicates
+            Destroy(gameObject);
             return;
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject); // Persist across scenes
+        DontDestroyOnLoad(gameObject);
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Only keep ScoreManager in Gameplay and End scenes
+        if (scene.name != "Gameplay" && scene.name != "End")
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void ResetValues()
@@ -78,14 +93,13 @@ public class ScoreManager : MonoBehaviour
 
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name == "Gameplay")  // Replace with your actual scene name
+        if (SceneManager.GetActiveScene().name == "Gameplay")
         {
             scoreTimer += Time.deltaTime;
 
             if (scoreTimer >= 1f)
             {
                 scoreTimer -= 1f;
-
                 int earned = CalculateScoreFromGroups();
                 totalScore += earned;
             }

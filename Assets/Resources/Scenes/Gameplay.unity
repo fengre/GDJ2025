@@ -798,27 +798,31 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 557f47c9f62710e4693cb58326f3cce5, type: 3}
     - target: {fileID: 8865111973827613886, guid: 707cde92583aee6448fb15715def83e8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8865111973827613886, guid: 707cde92583aee6448fb15715def83e8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8865111973827613886, guid: 707cde92583aee6448fb15715def83e8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1160349196}
+      objectReference: {fileID: 1807121166}
     - target: {fileID: 8865111973827613886, guid: 707cde92583aee6448fb15715def83e8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8865111973827613886, guid: 707cde92583aee6448fb15715def83e8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: GoToLevelsMenu
+      value: EndGame
       objectReference: {fileID: 0}
     - target: {fileID: 8865111973827613886, guid: 707cde92583aee6448fb15715def83e8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SceneController, Assembly-CSharp
+      value: GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8865111973827613886, guid: 707cde92583aee6448fb15715def83e8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: player quit
       objectReference: {fileID: 0}
     - target: {fileID: 8865111973827613886, guid: 707cde92583aee6448fb15715def83e8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

@@ -137,6 +137,8 @@ MonoBehaviour:
   normalScale: {x: 1, y: 1, z: 1}
   hoverScale: {x: 1.2, y: 1.2, z: 1}
   transitionSpeed: 10
+  customClickClip: {fileID: 0}
+  customHoverClip: {fileID: 0}
 --- !u!1 &1215105014111741523
 GameObject:
   m_ObjectHideFlags: 0

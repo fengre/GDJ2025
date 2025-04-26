@@ -140,7 +140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -5171355985785468750, guid: 158da6e1af82e094f8dd984f447139c5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 158da6e1af82e094f8dd984f447139c5, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -426,7 +426,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -5171355985785468750, guid: 158da6e1af82e094f8dd984f447139c5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 158da6e1af82e094f8dd984f447139c5, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -658,7 +658,7 @@ MonoBehaviour:
   - {fileID: 4783593702645097742}
   - {fileID: 8666984719661613186}
   filledStar: {fileID: 21300000, guid: 8a428566cda12fe46a75f38b722ee5de, type: 3}
-  emptyStar: {fileID: -5171355985785468750, guid: 158da6e1af82e094f8dd984f447139c5, type: 3}
+  emptyStar: {fileID: 21300000, guid: 158da6e1af82e094f8dd984f447139c5, type: 3}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   selectedColor: {r: 1, g: 0.85, b: 0.6, a: 1}
   assignedSong:

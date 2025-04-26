@@ -16,6 +16,7 @@ public class SceneController : MonoBehaviour
         {
             LevelManager.Instance.ClearSong();
         }
+
         SceneManager.LoadScene("Levels");
     }
 

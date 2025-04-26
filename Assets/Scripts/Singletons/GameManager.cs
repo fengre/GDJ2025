@@ -90,6 +90,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public double GetSongLength()
+    {
+        return songLength;
+    }
+
+
 
     public void EndGame(string reason)
     {

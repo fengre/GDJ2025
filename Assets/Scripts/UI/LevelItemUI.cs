@@ -48,11 +48,13 @@ public class LevelItemUI : MonoBehaviour
 
             isSelected = true;
             LevelManager.Instance.SetSong(assignedSong);
+            UISoundPlayer.Instance?.PlayLevelSelect();
         }
         else
         {
             isSelected = false;
             LevelManager.Instance.ClearSong();
+            UISoundPlayer.Instance?.PlayLevelUnselect();
         }
 
         UpdateVisual();

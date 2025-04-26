@@ -12,6 +12,10 @@ public class SceneController : MonoBehaviour
 
     public void GoToLevelsMenu()
     {
+        if(LevelManager.Instance != null)
+        {
+            LevelManager.Instance.ClearSong();
+        }
         SceneManager.LoadScene("Levels");
     }
 

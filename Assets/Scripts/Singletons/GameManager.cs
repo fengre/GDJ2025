@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
 
         var song = LevelManager.Instance.currentSong;
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour
 
         totalPauseDuration = 0.0;
         isPaused = false;
+        Time.timeScale = 1f;
     }
 
     public void PauseGame()

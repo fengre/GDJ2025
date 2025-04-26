@@ -42,13 +42,15 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         // musicSource.Play();
-        songLength = GroupManager.Instance.PlayAllGroupAudio();
+        GroupManager.Instance.PlayAllGroupAudio();
         songStartDspTime = AudioSettings.dspTime;
 
         ScoreManager.Instance.ResetValues();
         NoteManager.Instance.LoadAllGroupNoteData();
         GroupUIManager.Instance.InitializeGroups(GroupManager.Instance.groups);
         NoteManager.Instance.SwitchGroup(GroupManager.Instance.earliestGroup);
+
+        songLength = GroupManager.Instance.latestGroupTime;
 
         totalPauseDuration = 0.0;
         isPaused = false;
@@ -101,13 +103,16 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Game Over: " + reason);
         int finalScore = FindFirstObjectByType<ScoreManager>().GetTotalScore();
-        PlayerPrefs.SetInt("FinalScore", finalScore);
+        int maxStreak = ScoreManager.Instance.MaxStreak;
         
-        // Pass the current song's title when saving the score
+        PlayerPrefs.SetInt("FinalScore", finalScore);
+        PlayerPrefs.SetInt("MaxStreak", maxStreak);
+        
         string songTitle = LevelManager.Instance.currentSong.songTitle;
-        LeaderboardManager.SaveScore(finalScore, songTitle);
+        LeaderboardManager.SaveScore(finalScore, maxStreak, songTitle);
         
         SceneManager.LoadScene("End");
+    
     }
 
 }

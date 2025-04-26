@@ -154,6 +154,9 @@ public class NoteManager : MonoBehaviour
         if (group.isShutDown) {
             SwitchGroupAlertUI.Instance.Show(group.groupName + " Shutdown", Color.red);
             return; // don't switch to a shut down group
+        } else if (GroupUIManager.Instance.CheckLocked(g)) {
+            SwitchGroupAlertUI.Instance.Show(group.groupName + " Locked", Color.red);
+            return; // don't switch to a locked group
         }
 
         // 2) Change the active group

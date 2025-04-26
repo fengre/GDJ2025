@@ -7,9 +7,11 @@ using UnityEngine.UI;
 public class EndScreen : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI streakText;
     public TextMeshProUGUI ratingText;
-    public TextMeshProUGUI songTitleText;
-    public TextMeshProUGUI leaderboardText;
+    // public TextMeshProUGUI songTitleText;
+    public TextMeshProUGUI scoreLeaderboardText;
+    public TextMeshProUGUI streakLeaderboardText;
 
     [Header("Hit Stats Pie Chart")]
     public Image perfectSlice;
@@ -20,7 +22,9 @@ public class EndScreen : MonoBehaviour
     void Start()
     {
         int finalScore = PlayerPrefs.GetInt("FinalScore", 0);
+        int maxStreak = PlayerPrefs.GetInt("MaxStreak", 0);
         scoreText.text = $"{finalScore}";
+        streakText.text = $"{maxStreak}";
         ratingText.text = $"{GetRating(finalScore)}";
         ShowLeaderboard();
         DisplayStats();
@@ -38,22 +42,31 @@ public class EndScreen : MonoBehaviour
     private void ShowLeaderboard()
     {
         string songTitle = LevelManager.Instance.currentSong.songTitle;
-        List<int> topScores = LeaderboardManager.GetScores(songTitle);
-        songTitleText.text = songTitle;
+        List<ScoreEntry> topScores = LeaderboardManager.GetScores(songTitle);
+        List<ScoreEntry> topStreaks = LeaderboardManager.GetStreaks(songTitle);
+        // songTitleText.text = songTitle;
+        scoreLeaderboardText.text = "";
+        streakLeaderboardText.text = "";
 
         if (topScores.Count == 0)
         {
-            leaderboardText.text += "No scores yet!";
+            scoreLeaderboardText.text += "No scores yet!";
             return;
         }
 
-        for (int i = 0; i < 10; i++)
+
+        for (int i = 0; i < topScores.Count; i++)
         {
-            leaderboardText.text += $"{i + 1}. {topScores[i]:N0}\n";
+            if (i >= 3) break; // Limit to top 10 scores
+            scoreLeaderboardText.text += $"{i + 1}. {topScores[i].score:N0}\n";
+        }
+
+        for (int i = 0; i < topStreaks.Count; i++)
+        {
+            if (i >= 3) break; // Limit to top 10 scores
+            streakLeaderboardText.text += $"{i + 1}. {topStreaks[i].streak:N0}\n";
         }
     }
-
-
 
 
     public void DisplayStats()

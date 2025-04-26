@@ -16,17 +16,11 @@ public class SingleGroupUI : MonoBehaviour
     public CanvasGroup groupCanvasGroup;
     public Button button;
     private int groupIndex;
+    private bool locked = false;
 
     [Header("Zones (0–100)")]
     [Tooltip("Define each colored zone by its min/max value (0–100) and color.")]
-    public List<Zone> zones = new List<Zone>()
-    {
-        new Zone{ min=0,   max=15,  color=Color.red    },
-        new Zone{ min=15,  max=35,  color=Color.yellow },
-        new Zone{ min=35,  max=65,  color=Color.green  },
-        new Zone{ min=65,  max=85,  color=Color.yellow },
-        new Zone{ min=85,  max=100, color=Color.red    },
-    };
+    public List<Zone> zones = new List<Zone>();
 
     [Header("Lerp Settings")]
     public float lerpSpeed = 5f;
@@ -50,13 +44,21 @@ public class SingleGroupUI : MonoBehaviour
 
     void Start()
     {
+        Color outerGray = new Color32(0x10, 0x10, 0x10, 255);
+        Color middleGray = new Color32(0x60, 0x60, 0x60, 255);
+        Color centerGray = new Color32(0xA0, 0xA0, 0xA0, 255);
+
+        Color red = new Color32(0xD8, 0x4A, 0x43, 255);
+        Color yellow = new Color32(0xE6, 0xAD, 0x34, 255);
+        Color green = new Color32(0x89, 0xBF, 0x4F, 255);
+
         zones = new List<Zone>()
         {
-            new Zone{ min=0,   max=ScoreManager.Instance.okayMin,  color=Color.red    },
-            new Zone{ min=ScoreManager.Instance.okayMin,  max=ScoreManager.Instance.idealMin,  color=Color.yellow },
-            new Zone{ min=ScoreManager.Instance.idealMin,  max=ScoreManager.Instance.idealMax,  color=Color.green  },
-            new Zone{ min=ScoreManager.Instance.idealMax,  max=ScoreManager.Instance.okayMax,  color=Color.yellow },
-            new Zone{ min=ScoreManager.Instance.okayMax,  max=100, color=Color.red    },
+            new Zone{ min=0,   max=ScoreManager.Instance.okayMin,  color=red, grayColor=outerGray },
+            new Zone{ min=ScoreManager.Instance.okayMin,  max=ScoreManager.Instance.idealMin,  color=yellow, grayColor=middleGray },
+            new Zone{ min=ScoreManager.Instance.idealMin,  max=ScoreManager.Instance.idealMax,  color=green, grayColor=centerGray },
+            new Zone{ min=ScoreManager.Instance.idealMax,  max=ScoreManager.Instance.okayMax,  color=yellow, grayColor=middleGray }, 
+            new Zone{ min=ScoreManager.Instance.okayMax,  max=100, color=red, grayColor=outerGray },
         };
 
         // cache bar width
@@ -142,6 +144,10 @@ public class SingleGroupUI : MonoBehaviour
             var go = zoneObjects[i];
             var img = go.GetComponent<Image>();
             img.color = z.grayColor;
+            if (i == 2) {
+                groupNameText.color = z.grayColor;
+                groupIcon.color = z.grayColor;
+            }
         }
 
     }
@@ -158,6 +164,15 @@ public class SingleGroupUI : MonoBehaviour
         Color bgColor = groupBackground.color;
         bgColor.a = 0.1f;
         groupBackground.color = bgColor;
+    }
+
+    public void SetLocked()
+    {
+        if (locked) return;
+        locked = true;
+        groupCanvasGroup.interactable = false;
+        groupCanvasGroup.blocksRaycasts = false;
+        groupBackground.color = grayBackgroundColor;
     }
 
 }

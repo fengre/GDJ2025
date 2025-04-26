@@ -178,8 +178,27 @@ public class GroupManager : MonoBehaviour
         double currentSongTime = GameManager.Instance.GetSongTime();
         foreach (var group in groups)
         {
-            if (group.isShutDown || currentSongTime > group.latestNoteTime)
+            if (group.isShutDown)
                 continue;
+
+            if (currentSongTime > group.latestNoteTime)
+            {
+                if (group.groupValue < ScoreManager.Instance.okayMin || group.groupValue > ScoreManager.Instance.okayMax)
+                {
+                    group.redZoneTimer += Time.deltaTime;
+
+                    if (group.redZoneTimer >= group.maxRedZoneTime)
+                    {
+                        ShutdownGroup(group);
+                    }
+                }
+                else
+                {
+                    group.redZoneTimer = 0f;
+                }
+                GroupUIManager.Instance.LockValue(group.groupIndex);
+                continue;
+            }
 
             GroupUIManager.Instance.UpdateGroupValue(group.groupIndex, GroupManager.Instance.GetGroupValue(group.groupIndex));
 

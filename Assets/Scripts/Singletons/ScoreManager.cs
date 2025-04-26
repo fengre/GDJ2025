@@ -15,7 +15,7 @@ public class ScoreManager : MonoBehaviour
 
     public int perfectPointsPerSecond = 10;
     public int okayPointsPerSecond = 5;
-    public int missPenalty = 1;
+    public int missPenalty = 3;
 
     private float scoreTimer = 0f;
     private int totalScore = 0;
@@ -25,6 +25,12 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private int greatHits;
     [SerializeField] private int goodHits;
     [SerializeField] private int totalNotes;
+
+    [Header("Streak")]
+    [SerializeField] private int currentStreak = 0;
+    [SerializeField] private int maxStreak = 0;
+    public int CurrentStreak => currentStreak;
+    public int MaxStreak => maxStreak;
 
     public int TotalNotesHit => totalNotesHit;
     public int PerfectHits => perfectHits;
@@ -69,6 +75,8 @@ public class ScoreManager : MonoBehaviour
         greatHits = 0;
         goodHits = 0;
         totalNotes = 0;
+        currentStreak = 0;
+        maxStreak = 0;
     }
 
     public void RegisterNote() => totalNotes++;
@@ -76,6 +84,12 @@ public class ScoreManager : MonoBehaviour
     public void RegisterHit(HitRating rating)
     {
         totalNotesHit++;
+
+        currentStreak++;
+        if (currentStreak > maxStreak)
+            maxStreak = currentStreak;
+
+        StreakAlertUI.Instance.UpdateStreak(currentStreak);
 
         switch (rating)
         {
@@ -109,6 +123,8 @@ public class ScoreManager : MonoBehaviour
     public void RegisterMiss()
     {
         totalScore -= missPenalty;
+        currentStreak = 0;
+        // StreakAlertUI.Instance.UpdateStreak(0);
     }
 
     private int CalculateScoreFromGroups()

@@ -8,6 +8,7 @@ public class EndScreen : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI ratingText;
+    public TextMeshProUGUI songTitleText;
     public TextMeshProUGUI leaderboardText;
 
     [Header("Hit Stats Pie Chart")]
@@ -27,10 +28,10 @@ public class EndScreen : MonoBehaviour
 
     private string GetRating(int score)
     {
-        if (score >= 1000) return "S";
-        if (score >= 800) return "A";
-        if (score >= 600) return "B";
-        if (score >= 400) return "C";
+        if (score >= 3000) return "S";
+        if (score >= 2000) return "A";
+        if (score >= 1000) return "B";
+        if (score >= 800) return "C";
         return "D";
     }
 
@@ -38,7 +39,7 @@ public class EndScreen : MonoBehaviour
     {
         string songTitle = LevelManager.Instance.currentSong.songTitle;
         List<int> topScores = LeaderboardManager.GetScores(songTitle);
-        leaderboardText.text = $"Leaderboard - {songTitle}\n\n";
+        songTitleText.text = songTitle;
 
         if (topScores.Count == 0)
         {
@@ -46,7 +47,7 @@ public class EndScreen : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < topScores.Count; i++)
+        for (int i = 0; i < 10; i++)
         {
             leaderboardText.text += $"{i + 1}. {topScores[i]:N0}\n";
         }

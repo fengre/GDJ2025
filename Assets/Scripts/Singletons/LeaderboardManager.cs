@@ -35,7 +35,9 @@ public static class LeaderboardManager
                 scores.Add(PlayerPrefs.GetInt($"{songKey}{i}"));
         }
 
+        scores.Sort((a, b) => b.CompareTo(a)); // Ensure scores are sorted in descending order
         return scores;
+    
     }
 
     // Optional: Method to clear scores for testing

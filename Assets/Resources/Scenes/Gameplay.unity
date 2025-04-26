@@ -4483,10 +4483,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7af26285548af3d40a946a17c6bea8f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idealMin: 45
-  idealMax: 55
-  okayMin: 25
-  okayMax: 75
+  idealMin: 35
+  idealMax: 65
+  okayMin: 15
+  okayMax: 85
   perfectPointsPerSecond: 10
   okayPointsPerSecond: 5
   missPenalty: 1

@@ -301,27 +301,7 @@ MonoBehaviour:
   tick: {fileID: 45413797111780840}
   groupCanvasGroup: {fileID: 5323524401939728412}
   button: {fileID: 3706350063590687408}
-  zones:
-  - min: 0
-    max: 25
-    color: {r: 1, g: 0, b: 0, a: 1}
-    grayColor: {r: 0.227451, g: 0.227451, b: 0.227451, a: 1}
-  - min: 25
-    max: 45
-    color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-    grayColor: {r: 0.32941177, g: 0.32941177, b: 0.32941177, a: 1}
-  - min: 45
-    max: 55
-    color: {r: 0, g: 1, b: 0, a: 1}
-    grayColor: {r: 0.45882356, g: 0.4666667, b: 0.47450984, a: 1}
-  - min: 55
-    max: 75
-    color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-    grayColor: {r: 0.32941177, g: 0.32941177, b: 0.32941177, a: 1}
-  - min: 75
-    max: 100
-    color: {r: 1, g: 0, b: 0, a: 1}
-    grayColor: {r: 0.227451, g: 0.227451, b: 0.227451, a: 1}
+  zones: []
   lerpSpeed: 10
 --- !u!225 &5323524401939728412
 CanvasGroup:
